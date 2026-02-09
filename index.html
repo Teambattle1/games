@@ -223,6 +223,56 @@
         .label.green {
             color: #22c55e;
         }
+
+        /* Purple - TeamChallenge */
+        .icon.purple {
+            background: linear-gradient(135deg, rgba(190, 130, 255, 0.9) 0%, rgba(168, 85, 247, 0.7) 50%, rgba(126, 34, 206, 0.8) 100%);
+            box-shadow:
+                0 0 20px rgba(168, 85, 247, 0.6),
+                0 0 40px rgba(168, 85, 247, 0.4),
+                0 0 60px rgba(168, 85, 247, 0.3),
+                0 0 80px rgba(168, 85, 247, 0.2),
+                inset 0 0 30px rgba(210, 170, 255, 0.3),
+                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(210, 170, 255, 0.5);
+            animation: pulse-purple 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-purple {
+            0%, 100% {
+                box-shadow:
+                    0 0 20px rgba(168, 85, 247, 0.6),
+                    0 0 40px rgba(168, 85, 247, 0.4),
+                    0 0 60px rgba(168, 85, 247, 0.3),
+                    0 0 80px rgba(168, 85, 247, 0.2),
+                    inset 0 0 30px rgba(210, 170, 255, 0.3),
+                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                box-shadow:
+                    0 0 30px rgba(168, 85, 247, 0.8),
+                    0 0 60px rgba(168, 85, 247, 0.5),
+                    0 0 90px rgba(168, 85, 247, 0.4),
+                    0 0 120px rgba(168, 85, 247, 0.3),
+                    inset 0 0 30px rgba(210, 170, 255, 0.4),
+                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .icon-link:hover .icon.purple {
+            box-shadow:
+                0 0 40px rgba(168, 85, 247, 0.9),
+                0 0 80px rgba(168, 85, 247, 0.6),
+                0 0 120px rgba(168, 85, 247, 0.4),
+                0 0 160px rgba(168, 85, 247, 0.3),
+                inset 0 0 30px rgba(210, 170, 255, 0.5),
+                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
+            animation: none;
+        }
+
+        .label.purple {
+            color: #a855f7;
+        }
     </style>
 </head>
 <body>
@@ -252,6 +302,15 @@
                 </svg>
             </div>
             <span class="label green">TeamTrack</span>
+        </a>
+
+        <a href="https://challenge.eventday.dk" class="icon-link">
+            <div class="icon purple">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/>
+                </svg>
+            </div>
+            <span class="label purple">TeamChallenge</span>
         </a>
     </div>
 </body>
