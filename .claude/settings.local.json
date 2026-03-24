@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx --version)",
+      "Bash(npm list:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh api:*)",
+      "Bash(grep -n \"MusicPlaylistManager\\\\|RemoteMusicControlDialog\\\\|useRemoteMusicController\" client/pages/*.tsx)",
+      "Bash(xargs grep:*)",
+      "Bash(sed -i 's/TeamConnect - Music/TeamTaste - Music/g' music-taste.html)",
+      "Bash(sed -i 's/34,197,94/218,165,32/g' music-taste.html)",
+      "Bash(sed -i 's/#22c55e/#daa520/g' music-taste.html)",
+      "Bash(sed -i 's/teamconnect\\\\.html/teamtaste.html/g' music-taste.html)",
+      "Bash(sed -i 's/tc_default_playlist/tt_default_playlist/g' music-taste.html)"
+    ]
+  }
+}
