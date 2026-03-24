@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamConnect - Zones</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px 20px;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #ff6600;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: opacity 0.3s ease;
+        }
+        .back-link:hover { opacity: 0.7; }
+
+        .title {
+            color: #ff6600;
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 50px;
+            text-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+        }
+
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            padding: 20px;
+        }
+
+        .zone-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .zone-link:hover { transform: scale(1.1); }
+
+        .zone-icon {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zone-icon::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 20%;
+            width: 60%;
+            height: 30%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .zone-number {
+            color: rgba(0, 0, 0, 0.8);
+            font-size: 40px;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .zone-label {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* Red */
+        .zone-icon.red {
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.9) 0%, rgba(220, 50, 50, 0.7) 50%, rgba(180, 30, 30, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(220,50,50,0.6), 0 0 40px rgba(220,50,50,0.4), 0 0 60px rgba(220,50,50,0.3), 0 0 80px rgba(220,50,50,0.2), inset 0 0 30px rgba(255,150,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,150,150,0.5);
+            animation: pulse-red 2s ease-in-out infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 20px rgba(220,50,50,0.6), 0 0 40px rgba(220,50,50,0.4), 0 0 60px rgba(220,50,50,0.3), 0 0 80px rgba(220,50,50,0.2), inset 0 0 30px rgba(255,150,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 0 30px rgba(220,50,50,0.8), 0 0 60px rgba(220,50,50,0.5), 0 0 90px rgba(220,50,50,0.4), 0 0 120px rgba(220,50,50,0.3), inset 0 0 30px rgba(255,150,150,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); }
+        }
+        .zone-link:hover .zone-icon.red { box-shadow: 0 0 40px rgba(220,50,50,0.9), 0 0 80px rgba(220,50,50,0.6), 0 0 120px rgba(220,50,50,0.4), 0 0 160px rgba(220,50,50,0.3), inset 0 0 30px rgba(255,150,150,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .zone-label.red { color: #dc3232; }
+
+        /* Green */
+        .zone-icon.green {
+            background: linear-gradient(135deg, rgba(100, 220, 100, 0.9) 0%, rgba(34, 197, 94, 0.7) 50%, rgba(22, 163, 74, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(34,197,94,0.6), 0 0 40px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.3), 0 0 80px rgba(34,197,94,0.2), inset 0 0 30px rgba(150,255,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2);
+            border: 2px solid rgba(150,255,150,0.5);
+            animation: pulse-green 2s ease-in-out infinite;
+        }
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 20px rgba(34,197,94,0.6), 0 0 40px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.3), 0 0 80px rgba(34,197,94,0.2), inset 0 0 30px rgba(150,255,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 0 30px rgba(34,197,94,0.8), 0 0 60px rgba(34,197,94,0.5), 0 0 90px rgba(34,197,94,0.4), 0 0 120px rgba(34,197,94,0.3), inset 0 0 30px rgba(150,255,150,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); }
+        }
+        .zone-link:hover .zone-icon.green { box-shadow: 0 0 40px rgba(34,197,94,0.9), 0 0 80px rgba(34,197,94,0.6), 0 0 120px rgba(34,197,94,0.4), 0 0 160px rgba(34,197,94,0.3), inset 0 0 30px rgba(150,255,150,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .zone-label.green { color: #22c55e; }
+
+        /* Blue */
+        .zone-icon.blue {
+            background: linear-gradient(135deg, rgba(100, 150, 255, 0.9) 0%, rgba(50, 100, 220, 0.7) 50%, rgba(30, 70, 180, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(50,100,220,0.6), 0 0 40px rgba(50,100,220,0.4), 0 0 60px rgba(50,100,220,0.3), 0 0 80px rgba(50,100,220,0.2), inset 0 0 30px rgba(150,180,255,0.3), inset 0 -20px 40px rgba(0,0,0,0.2);
+            border: 2px solid rgba(150,180,255,0.5);
+            animation: pulse-blue 2s ease-in-out infinite;
+        }
+        @keyframes pulse-blue {
+            0%, 100% { box-shadow: 0 0 20px rgba(50,100,220,0.6), 0 0 40px rgba(50,100,220,0.4), 0 0 60px rgba(50,100,220,0.3), 0 0 80px rgba(50,100,220,0.2), inset 0 0 30px rgba(150,180,255,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 0 30px rgba(50,100,220,0.8), 0 0 60px rgba(50,100,220,0.5), 0 0 90px rgba(50,100,220,0.4), 0 0 120px rgba(50,100,220,0.3), inset 0 0 30px rgba(150,180,255,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); }
+        }
+        .zone-link:hover .zone-icon.blue { box-shadow: 0 0 40px rgba(50,100,220,0.9), 0 0 80px rgba(50,100,220,0.6), 0 0 120px rgba(50,100,220,0.4), 0 0 160px rgba(50,100,220,0.3), inset 0 0 30px rgba(150,180,255,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .zone-label.blue { color: #3264dc; }
+
+        /* Yellow */
+        .zone-icon.yellow {
+            background: linear-gradient(135deg, rgba(255, 240, 100, 0.9) 0%, rgba(234, 200, 30, 0.7) 50%, rgba(200, 170, 10, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(234,200,30,0.6), 0 0 40px rgba(234,200,30,0.4), 0 0 60px rgba(234,200,30,0.3), 0 0 80px rgba(234,200,30,0.2), inset 0 0 30px rgba(255,245,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,245,150,0.5);
+            animation: pulse-yellow 2s ease-in-out infinite;
+        }
+        @keyframes pulse-yellow {
+            0%, 100% { box-shadow: 0 0 20px rgba(234,200,30,0.6), 0 0 40px rgba(234,200,30,0.4), 0 0 60px rgba(234,200,30,0.3), 0 0 80px rgba(234,200,30,0.2), inset 0 0 30px rgba(255,245,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 0 30px rgba(234,200,30,0.8), 0 0 60px rgba(234,200,30,0.5), 0 0 90px rgba(234,200,30,0.4), 0 0 120px rgba(234,200,30,0.3), inset 0 0 30px rgba(255,245,150,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); }
+        }
+        .zone-link:hover .zone-icon.yellow { box-shadow: 0 0 40px rgba(234,200,30,0.9), 0 0 80px rgba(234,200,30,0.6), 0 0 120px rgba(234,200,30,0.4), 0 0 160px rgba(234,200,30,0.3), inset 0 0 30px rgba(255,245,150,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .zone-label.yellow { color: #eac81e; }
+
+        @media (max-width: 768px) {
+            .zones-grid { gap: 30px; }
+            .zone-icon { width: 100px; height: 100px; }
+            .zone-number { font-size: 28px; }
+            .title { font-size: 28px; margin-bottom: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="teamconnect.html" class="back-link">&larr; Back</a>
+    <h1 class="title">Zones</h1>
+    <div class="zones-grid">
+        <a href="zone1.html" class="zone-link">
+            <div class="zone-icon red">
+                <span class="zone-number">1</span>
+            </div>
+            <span class="zone-label red">Toyzone</span>
+        </a>
+        <a href="zone2.html" class="zone-link">
+            <div class="zone-icon green">
+                <span class="zone-number">2</span>
+            </div>
+            <span class="zone-label green">Electrical Stuff</span>
+        </a>
+        <a href="zone3.html" class="zone-link">
+            <div class="zone-icon blue">
+                <span class="zone-number">3</span>
+            </div>
+            <span class="zone-label blue">Tools &amp; Materials</span>
+        </a>
+        <a href="zone4.html" class="zone-link">
+            <div class="zone-icon yellow">
+                <span class="zone-number">4</span>
+            </div>
+            <span class="zone-label yellow">Help!!!</span>
+        </a>
+    </div>
+</body>
+</html>

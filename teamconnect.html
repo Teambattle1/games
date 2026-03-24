@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeamConnect - Zones</title>
+    <title>TeamConnect</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: #000;
@@ -33,10 +29,7 @@
             letter-spacing: 1px;
             transition: opacity 0.3s ease;
         }
-
-        .back-link:hover {
-            opacity: 0.7;
-        }
+        .back-link:hover { opacity: 0.7; }
 
         .title {
             color: #ff6600;
@@ -48,50 +41,38 @@
             text-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
         }
 
-        .zones-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 50px;
-            padding: 20px;
+        .menu-row {
+            display: flex;
+            gap: 80px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .zone-link {
+        .menu-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-decoration: none;
             transition: transform 0.3s ease;
             cursor: pointer;
+            position: relative;
         }
+        .menu-item:hover { transform: scale(1.1); }
 
-        .zone-link:hover {
-            transform: scale(1.1);
-        }
-
-        .zone-icon {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, rgba(255, 140, 50, 0.9) 0%, rgba(255, 102, 0, 0.7) 50%, rgba(200, 80, 0, 0.8) 100%);
+        .menu-icon {
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
-            box-shadow:
-                0 0 20px rgba(255, 102, 0, 0.6),
-                0 0 40px rgba(255, 102, 0, 0.4),
-                0 0 60px rgba(255, 102, 0, 0.3),
-                0 0 80px rgba(255, 102, 0, 0.2),
-                inset 0 0 30px rgba(255, 180, 100, 0.3),
-                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(255, 180, 100, 0.5);
+            margin-bottom: 20px;
             transition: all 0.3s ease;
-            animation: pulse-orange 2s ease-in-out infinite;
             position: relative;
             overflow: hidden;
         }
 
-        .zone-icon::before {
+        .menu-icon::before {
             content: '';
             position: absolute;
             top: 10%;
@@ -103,104 +84,118 @@
             pointer-events: none;
         }
 
-        .zone-number {
-            color: rgba(0, 0, 0, 0.8);
-            font-size: 36px;
-            font-weight: bold;
+        .menu-icon svg {
+            width: 65px;
+            height: 65px;
+            fill: rgba(0, 0, 0, 0.8);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
             position: relative;
             z-index: 1;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
 
-        @keyframes pulse-orange {
-            0%, 100% {
-                box-shadow:
-                    0 0 20px rgba(255, 102, 0, 0.6),
-                    0 0 40px rgba(255, 102, 0, 0.4),
-                    0 0 60px rgba(255, 102, 0, 0.3),
-                    0 0 80px rgba(255, 102, 0, 0.2),
-                    inset 0 0 30px rgba(255, 180, 100, 0.3),
-                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            }
-            50% {
-                box-shadow:
-                    0 0 30px rgba(255, 102, 0, 0.8),
-                    0 0 60px rgba(255, 102, 0, 0.5),
-                    0 0 90px rgba(255, 102, 0, 0.4),
-                    0 0 120px rgba(255, 102, 0, 0.3),
-                    inset 0 0 30px rgba(255, 180, 100, 0.4),
-                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            }
-        }
-
-        .zone-link:hover .zone-icon {
-            box-shadow:
-                0 0 40px rgba(255, 102, 0, 0.9),
-                0 0 80px rgba(255, 102, 0, 0.6),
-                0 0 120px rgba(255, 102, 0, 0.4),
-                0 0 160px rgba(255, 102, 0, 0.3),
-                inset 0 0 30px rgba(255, 180, 100, 0.5),
-                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            animation: none;
-        }
-
-        .zone-label {
-            color: #ff6600;
-            font-size: 18px;
+        .menu-label {
+            font-size: 22px;
             font-weight: bold;
             letter-spacing: 2px;
             text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* Orange - Zones */
+        .menu-icon.orange {
+            background: linear-gradient(135deg, rgba(255, 140, 50, 0.9) 0%, rgba(255, 102, 0, 0.7) 50%, rgba(200, 80, 0, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(255,102,0,0.6), 0 0 40px rgba(255,102,0,0.4), 0 0 60px rgba(255,102,0,0.3), 0 0 80px rgba(255,102,0,0.2), inset 0 0 30px rgba(255,180,100,0.3), inset 0 -20px 40px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,180,100,0.5);
+            animation: pulse-orange 2s ease-in-out infinite;
+        }
+        @keyframes pulse-orange {
+            0%, 100% { box-shadow: 0 0 20px rgba(255,102,0,0.6), 0 0 40px rgba(255,102,0,0.4), 0 0 60px rgba(255,102,0,0.3), 0 0 80px rgba(255,102,0,0.2), inset 0 0 30px rgba(255,180,100,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 0 30px rgba(255,102,0,0.8), 0 0 60px rgba(255,102,0,0.5), 0 0 90px rgba(255,102,0,0.4), 0 0 120px rgba(255,102,0,0.3), inset 0 0 30px rgba(255,180,100,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); }
+        }
+        .menu-item:hover .menu-icon.orange { box-shadow: 0 0 40px rgba(255,102,0,0.9), 0 0 80px rgba(255,102,0,0.6), 0 0 120px rgba(255,102,0,0.4), 0 0 160px rgba(255,102,0,0.3), inset 0 0 30px rgba(255,180,100,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .menu-label.orange { color: #ff6600; }
+
+        /* Green - Music */
+        .menu-icon.green {
+            background: linear-gradient(135deg, rgba(100, 220, 100, 0.9) 0%, rgba(34, 197, 94, 0.7) 50%, rgba(22, 163, 74, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(34,197,94,0.6), 0 0 40px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.3), 0 0 80px rgba(34,197,94,0.2), inset 0 0 30px rgba(150,255,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2);
+            border: 2px solid rgba(150,255,150,0.5);
+            animation: pulse-green 2s ease-in-out infinite;
+        }
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 20px rgba(34,197,94,0.6), 0 0 40px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.3), 0 0 80px rgba(34,197,94,0.2), inset 0 0 30px rgba(150,255,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 0 30px rgba(34,197,94,0.8), 0 0 60px rgba(34,197,94,0.5), 0 0 90px rgba(34,197,94,0.4), 0 0 120px rgba(34,197,94,0.3), inset 0 0 30px rgba(150,255,150,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); }
+        }
+        .menu-item:hover .menu-icon.green { box-shadow: 0 0 40px rgba(34,197,94,0.9), 0 0 80px rgba(34,197,94,0.6), 0 0 120px rgba(34,197,94,0.4), 0 0 160px rgba(34,197,94,0.3), inset 0 0 30px rgba(150,255,150,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .menu-label.green { color: #22c55e; }
+
+        /* Gray - Fejl & Mangler */
+        .menu-icon.gray {
+            background: linear-gradient(135deg, rgba(180, 180, 200, 0.9) 0%, rgba(120, 120, 150, 0.7) 50%, rgba(80, 80, 110, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(120,120,150,0.6), 0 0 40px rgba(120,120,150,0.4), 0 0 60px rgba(120,120,150,0.3), 0 0 80px rgba(120,120,150,0.2), inset 0 0 30px rgba(200,200,230,0.3), inset 0 -20px 40px rgba(0,0,0,0.2);
+            border: 2px solid rgba(200,200,230,0.5);
+            animation: pulse-gray 2s ease-in-out infinite;
+        }
+        @keyframes pulse-gray {
+            0%, 100% { box-shadow: 0 0 20px rgba(120,120,150,0.6), 0 0 40px rgba(120,120,150,0.4), 0 0 60px rgba(120,120,150,0.3), 0 0 80px rgba(120,120,150,0.2), inset 0 0 30px rgba(200,200,230,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 0 30px rgba(120,120,150,0.8), 0 0 60px rgba(120,120,150,0.5), 0 0 90px rgba(120,120,150,0.4), 0 0 120px rgba(120,120,150,0.3), inset 0 0 30px rgba(200,200,230,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); }
+        }
+        .menu-item:hover .menu-icon.gray { box-shadow: 0 0 40px rgba(120,120,150,0.9), 0 0 80px rgba(120,120,150,0.6), 0 0 120px rgba(120,120,150,0.4), 0 0 160px rgba(120,120,150,0.3), inset 0 0 30px rgba(200,200,230,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .menu-label.gray { color: #b0b0c8; }
+
+        .beta-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.4);
+            z-index: 2;
         }
 
         @media (max-width: 768px) {
-            .zones-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-
-            .zone-icon {
-                width: 100px;
-                height: 100px;
-            }
-
-            .zone-number {
-                font-size: 28px;
-            }
-
-            .title {
-                font-size: 28px;
-                margin-bottom: 40px;
-            }
+            .menu-row { gap: 40px; }
+            .menu-icon { width: 110px; height: 110px; }
+            .menu-icon svg { width: 50px; height: 50px; }
+            .menu-label { font-size: 16px; }
+            .title { font-size: 28px; margin-bottom: 40px; }
         }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-link">&larr; Back</a>
     <h1 class="title">TeamConnect</h1>
-    <div class="zones-grid">
-        <a href="zone1.html" class="zone-link">
-            <div class="zone-icon">
-                <span class="zone-number">1</span>
+    <div class="menu-row">
+        <a href="zones.html" class="menu-item">
+            <div class="menu-icon orange">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
             </div>
-            <span class="zone-label">Toyzone</span>
+            <span class="menu-label orange">Zones</span>
         </a>
-        <a href="zone2.html" class="zone-link">
-            <div class="zone-icon">
-                <span class="zone-number">2</span>
+        <a href="music.html" class="menu-item">
+            <div class="menu-icon green">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
             </div>
-            <span class="zone-label">Electrical Stuff</span>
+            <span class="menu-label green">Music</span>
         </a>
-        <a href="zone3.html" class="zone-link">
-            <div class="zone-icon">
-                <span class="zone-number">3</span>
+        <a href="#" class="menu-item">
+            <span class="beta-badge">Beta</span>
+            <div class="menu-icon gray">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                </svg>
             </div>
-            <span class="zone-label">Tools &amp; Materials</span>
-        </a>
-        <a href="zone4.html" class="zone-link">
-            <div class="zone-icon">
-                <span class="zone-number">4</span>
-            </div>
-            <span class="zone-label">Help!!!</span>
+            <span class="menu-label gray">Fejl &amp; Mangler</span>
         </a>
     </div>
 </body>
