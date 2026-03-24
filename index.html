@@ -145,11 +145,199 @@
         .icon-link:hover .c-black { box-shadow: 0 0 40px rgba(120,120,120,0.9), 0 0 80px rgba(100,100,100,0.6), 0 0 120px rgba(80,80,80,0.4), inset 0 0 30px rgba(150,150,150,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
         .l-black { color: #c0c0c0; }
 
+        /* Fejl & Mangler button */
+        .fejl-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 6px;
+            padding: 4px 10px;
+            background: rgba(255,60,60,0.15);
+            border: 1px solid rgba(255,60,60,0.4);
+            border-radius: 12px;
+            color: rgba(255,100,100,0.8);
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .fejl-btn:hover { background: rgba(255,60,60,0.3); color: #ff6666; border-color: rgba(255,60,60,0.7); }
+        .fejl-btn svg { width: 12px; height: 12px; fill: currentColor; }
+
+        /* Error Report Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255,60,60,0.3);
+            box-shadow: 0 0 40px rgba(255,60,60,0.2);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .modal-title {
+            color: #ff6666;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+        .modal-close:hover { color: #fff; }
+        .modal-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+        .modal-info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #aaa;
+            font-size: 13px;
+        }
+        .modal-info-row span { color: #fff; font-weight: bold; }
+        .modal-info-row svg { width: 16px; height: 16px; fill: #666; flex-shrink: 0; }
+        .modal-field { margin-bottom: 18px; }
+        .modal-field label {
+            display: block;
+            color: #aaa;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .modal-field textarea {
+            width: 100%;
+            min-height: 100px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            color: #fff;
+            padding: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+        }
+        .modal-field textarea:focus { outline: none; border-color: rgba(255,60,60,0.5); }
+        .media-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .media-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 16px 10px;
+            background: rgba(255,255,255,0.06);
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 12px;
+            color: #aaa;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .media-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); color: #fff; }
+        .media-btn.has-file { border-style: solid; border-color: rgba(34,197,94,0.6); background: rgba(34,197,94,0.1); color: #22c55e; }
+        .media-btn svg { width: 28px; height: 28px; fill: currentColor; }
+        .media-preview {
+            display: none;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: rgba(0,0,0,0.3);
+        }
+        .media-preview.active { display: block; }
+        .media-preview img, .media-preview video {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            display: block;
+        }
+        .media-preview .preview-remove {
+            display: flex;
+            justify-content: center;
+            padding: 6px;
+        }
+        .media-preview .preview-remove button {
+            background: rgba(255,60,60,0.2);
+            border: 1px solid rgba(255,60,60,0.4);
+            color: #ff6666;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .modal-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .modal-submit:hover { box-shadow: 0 0 20px rgba(255,60,60,0.4); transform: translateY(-1px); }
+        .modal-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+        .modal-success {
+            display: none;
+            text-align: center;
+            padding: 30px 0;
+        }
+        .modal-success.active { display: block; }
+        .modal-success svg { width: 60px; height: 60px; fill: #22c55e; margin-bottom: 16px; }
+        .modal-success p { color: #22c55e; font-size: 18px; font-weight: bold; letter-spacing: 1px; }
+
         @media (max-width: 900px) {
             .container { grid-template-columns: repeat(2, 1fr); gap: 25px; }
             .icon { width: 100px; height: 100px; }
             .icon svg { width: 44px; height: 44px; }
             .label { font-size: 13px; }
+            .fejl-btn { font-size: 9px; padding: 3px 8px; }
         }
     </style>
 </head>
@@ -162,6 +350,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-orange">Play</span></span>
             <span class="subtitle">Cooperation</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamPlay')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <a href="teamchallenge.html" class="icon-link">
@@ -170,6 +359,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-pink">Challenge</span></span>
             <span class="subtitle">Competition</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamChallenge')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <a href="teamtaste.html" class="icon-link">
@@ -178,6 +368,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-gold">Taste</span></span>
             <span class="subtitle">Culinary</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamTaste')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <a href="teamlazer.html" class="icon-link">
@@ -186,6 +377,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-blue">Lazer</span></span>
             <span class="subtitle">Laser Combat</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamLazer')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <!-- Row 2 -->
@@ -195,6 +387,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-lightgreen">Robin</span></span>
             <span class="subtitle">Archery</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamRobin')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <a href="teamsegway.html" class="icon-link">
@@ -203,6 +396,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-red">Segway</span></span>
             <span class="subtitle">Transporters</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamSegway')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <a href="teamconnect.html" class="icon-link">
@@ -211,6 +405,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-purple">Connect</span></span>
             <span class="subtitle">Networking</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamConnect')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <a href="teambox.html" class="icon-link">
@@ -219,6 +414,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-darkgreen">Box</span></span>
             <span class="subtitle">Portable Events</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamBox')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <!-- Row 3 -->
@@ -228,6 +424,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-gray">Control</span></span>
             <span class="subtitle">Strategy</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamControl')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <a href="teamaction.html" class="icon-link">
@@ -236,6 +433,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-cyan">Action</span></span>
             <span class="subtitle">High Intensity</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamAction')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <a href="teamconstruct.html" class="icon-link">
@@ -244,6 +442,7 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-yellow">Construct</span></span>
             <span class="subtitle">Building</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamConstruct')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
 
         <a href="teamrace.html" class="icon-link">
@@ -252,7 +451,209 @@
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-black">Race</span></span>
             <span class="subtitle">Racing</span>
+            <button class="fejl-btn" onclick="event.preventDefault();openFejl('TeamRace')"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Fejl</button>
         </a>
     </div>
+
+    <!-- Fejl & Mangler Modal -->
+    <div class="modal-overlay" id="fejlModal">
+        <div class="modal">
+            <div id="fejlForm">
+                <div class="modal-header">
+                    <span class="modal-title">Fejl & Mangler</span>
+                    <button class="modal-close" onclick="closeFejl()">&times;</button>
+                </div>
+                <div class="modal-info">
+                    <div class="modal-info-row">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm-1-11h2v6h-2zm0-4h2v2h-2z"/></svg>
+                        Aktivitet: <span id="fejlActivity"></span>
+                    </div>
+                    <div class="modal-info-row">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        Dato/Tid: <span id="fejlDateTime"></span>
+                    </div>
+                </div>
+
+                <div class="media-buttons">
+                    <label class="media-btn" id="photoBtnLabel">
+                        <svg viewBox="0 0 24 24"><path d="M12 15.2c1.77 0 3.2-1.43 3.2-3.2S13.77 8.8 12 8.8 8.8 10.23 8.8 12s1.43 3.2 3.2 3.2zM9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"/></svg>
+                        Tag Billede
+                        <input type="file" accept="image/*" capture="environment" id="photoInput" style="display:none" onchange="handleMedia(this,'photo')">
+                    </label>
+                    <label class="media-btn" id="videoBtnLabel">
+                        <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                        Optag Video
+                        <input type="file" accept="video/*" capture="environment" id="videoInput" style="display:none" onchange="handleMedia(this,'video')">
+                    </label>
+                </div>
+
+                <div class="media-preview" id="mediaPreview">
+                    <div id="mediaPreviewContent"></div>
+                    <div class="preview-remove">
+                        <button onclick="removeMedia()">Fjern</button>
+                    </div>
+                </div>
+
+                <div class="modal-field">
+                    <label>Beskriv fejlen</label>
+                    <textarea id="fejlDescription" placeholder="Beskriv hvad der er galt..."></textarea>
+                </div>
+
+                <button class="modal-submit" id="fejlSubmit" onclick="submitFejl()">Indsend Rapport</button>
+            </div>
+
+            <div class="modal-success" id="fejlSuccess">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                <p>Rapport indsendt!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://infnlcqdwycjfssymeic.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluZm5sY3Fkd3ljamZzc3ltZWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxNDYzMzUsImV4cCI6MjA3MTcyMjMzNX0.Mo4wpqV5Ax-TqOwMpNXM4NqiHv7fC0TLM3wBKAPj15Q';
+        const STORAGE_BUCKET = 'reports';
+
+        let currentActivity = '';
+        let selectedFile = null;
+        let selectedMediaType = null;
+
+        function openFejl(activity) {
+            currentActivity = activity;
+            selectedFile = null;
+            selectedMediaType = null;
+            document.getElementById('fejlActivity').textContent = activity;
+            const now = new Date();
+            document.getElementById('fejlDateTime').textContent = now.toLocaleString('da-DK', {
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+            document.getElementById('fejlDescription').value = '';
+            document.getElementById('photoInput').value = '';
+            document.getElementById('videoInput').value = '';
+            document.getElementById('mediaPreview').classList.remove('active');
+            document.getElementById('photoBtnLabel').classList.remove('has-file');
+            document.getElementById('videoBtnLabel').classList.remove('has-file');
+            document.getElementById('fejlForm').style.display = 'block';
+            document.getElementById('fejlSuccess').classList.remove('active');
+            document.getElementById('fejlSubmit').disabled = false;
+            document.getElementById('fejlSubmit').textContent = 'Indsend Rapport';
+            document.getElementById('fejlModal').classList.add('active');
+        }
+
+        function closeFejl() {
+            document.getElementById('fejlModal').classList.remove('active');
+        }
+
+        function handleMedia(input, type) {
+            if (!input.files || !input.files[0]) return;
+            selectedFile = input.files[0];
+            selectedMediaType = type;
+
+            const preview = document.getElementById('mediaPreview');
+            const content = document.getElementById('mediaPreviewContent');
+            content.innerHTML = '';
+
+            if (type === 'photo') {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(selectedFile);
+                content.appendChild(img);
+                document.getElementById('photoBtnLabel').classList.add('has-file');
+                document.getElementById('videoBtnLabel').classList.remove('has-file');
+            } else {
+                const vid = document.createElement('video');
+                vid.src = URL.createObjectURL(selectedFile);
+                vid.controls = true;
+                content.appendChild(vid);
+                document.getElementById('videoBtnLabel').classList.add('has-file');
+                document.getElementById('photoBtnLabel').classList.remove('has-file');
+            }
+            preview.classList.add('active');
+        }
+
+        function removeMedia() {
+            selectedFile = null;
+            selectedMediaType = null;
+            document.getElementById('photoInput').value = '';
+            document.getElementById('videoInput').value = '';
+            document.getElementById('mediaPreview').classList.remove('active');
+            document.getElementById('mediaPreviewContent').innerHTML = '';
+            document.getElementById('photoBtnLabel').classList.remove('has-file');
+            document.getElementById('videoBtnLabel').classList.remove('has-file');
+        }
+
+        async function submitFejl() {
+            const description = document.getElementById('fejlDescription').value.trim();
+            if (!description && !selectedFile) {
+                alert('Tilføj venligst en beskrivelse eller et billede/video.');
+                return;
+            }
+
+            const btn = document.getElementById('fejlSubmit');
+            btn.disabled = true;
+            btn.textContent = 'Sender...';
+
+            try {
+                let mediaPath = null;
+
+                if (selectedFile) {
+                    const ext = selectedFile.name.split('.').pop() || (selectedMediaType === 'photo' ? 'jpg' : 'mp4');
+                    const fileName = `${currentActivity}_${Date.now()}.${ext}`;
+                    const filePath = `${currentActivity.toLowerCase()}/${fileName}`;
+
+                    const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/${STORAGE_BUCKET}/${filePath}`, {
+                        method: 'POST',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`,
+                            'Content-Type': selectedFile.type,
+                            'x-upsert': 'true'
+                        },
+                        body: selectedFile
+                    });
+
+                    if (uploadRes.ok) {
+                        mediaPath = filePath;
+                    }
+                }
+
+                const report = {
+                    activity: currentActivity,
+                    description: description,
+                    media_path: mediaPath,
+                    media_type: selectedMediaType,
+                    reported_at: new Date().toISOString()
+                };
+
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/error_reports`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify(report)
+                });
+
+                if (!res.ok) throw new Error('Failed to submit');
+
+                document.getElementById('fejlForm').style.display = 'none';
+                document.getElementById('fejlSuccess').classList.add('active');
+                setTimeout(() => closeFejl(), 2000);
+
+            } catch (err) {
+                console.error('Error submitting report:', err);
+                alert('Kunne ikke indsende rapport. Prøv igen.');
+                btn.disabled = false;
+                btn.textContent = 'Indsend Rapport';
+            }
+        }
+
+        // Close modal on overlay click
+        document.getElementById('fejlModal').addEventListener('click', function(e) {
+            if (e.target === this) closeFejl();
+        });
+    </script>
 </body>
 </html>
