@@ -6,429 +6,99 @@
     <title>TeamConnect - Music</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #000; min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff; display: flex; flex-direction: column; }
 
-        body {
-            background-color: #000;
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header */
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 20px 30px;
-            border-bottom: 1px solid rgba(34, 197, 94, 0.3);
-        }
-
-        .back-link {
-            color: #22c55e;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            transition: opacity 0.3s ease;
-            margin-right: 20px;
-        }
+        .header { display: flex; align-items: center; padding: 20px 30px; border-bottom: 1px solid rgba(34,197,94,0.3); }
+        .back-link { color: #22c55e; text-decoration: none; font-size: 18px; font-weight: bold; letter-spacing: 1px; transition: opacity 0.3s; margin-right: 20px; }
         .back-link:hover { opacity: 0.7; }
+        .page-title { color: #22c55e; font-size: 28px; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; text-shadow: 0 0 15px rgba(34,197,94,0.4); }
 
-        .page-title {
-            color: #22c55e;
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
-        }
+        .main-layout { display: flex; flex: 1; overflow: hidden; }
 
-        /* Layout */
-        .main-layout {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
+        /* Sidebar */
+        .sidebar { width: 300px; border-right: 1px solid rgba(34,197,94,0.3); display: flex; flex-direction: column; background: rgba(34,197,94,0.03); }
+        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(34,197,94,0.2); }
+        .sidebar-header h3 { color: #22c55e; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
 
-        /* Sidebar - Playlist Management */
-        .sidebar {
-            width: 300px;
-            border-right: 1px solid rgba(34, 197, 94, 0.3);
-            display: flex;
-            flex-direction: column;
-            background: rgba(34, 197, 94, 0.03);
-        }
+        .playlist-list { flex: 1; overflow-y: auto; padding: 10px; }
+        .playlist-item { display: flex; align-items: center; padding: 12px 14px; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-bottom: 4px; }
+        .playlist-item:hover { background: rgba(34,197,94,0.1); }
+        .playlist-item.active { background: rgba(34,197,94,0.2); border: 1px solid rgba(34,197,94,0.4); }
+        .playlist-name { flex: 1; font-size: 15px; font-weight: 600; }
+        .playlist-count { color: rgba(255,255,255,0.4); font-size: 12px; margin-left: 8px; }
+        .playlist-cached { font-size: 11px; margin-left: 6px; padding: 2px 6px; border-radius: 4px; }
+        .playlist-cached.full { background: rgba(34,197,94,0.2); color: #22c55e; }
+        .playlist-cached.partial { background: rgba(255,165,0,0.2); color: #ffa500; }
+        .playlist-cached.none { display: none; }
 
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
-        }
+        /* Buttons */
+        .btn { background: rgba(34,197,94,0.2); border: 1px solid rgba(34,197,94,0.5); color: #22c55e; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: all 0.2s; white-space: nowrap; }
+        .btn:hover { background: rgba(34,197,94,0.35); box-shadow: 0 0 10px rgba(34,197,94,0.3); }
+        .btn.sync { background: rgba(0,150,255,0.2); border-color: rgba(0,150,255,0.5); color: #0096ff; }
+        .btn.sync:hover { background: rgba(0,150,255,0.35); }
+        .btn.sync.syncing { animation: syncPulse 1s ease-in-out infinite; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        .sidebar-header h3 {
-            color: #22c55e;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
+        @keyframes syncPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        .create-row {
-            display: flex;
-            gap: 8px;
-        }
+        /* Content */
+        .content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .upload-bar { display: flex; align-items: center; gap: 12px; padding: 16px 24px; border-bottom: 1px solid rgba(34,197,94,0.2); flex-wrap: wrap; }
+        .upload-bar h3 { color: #22c55e; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
+        .sync-status { font-size: 12px; color: rgba(255,255,255,0.4); margin-left: 8px; }
+        .sync-status .cached { color: #22c55e; }
+        .sync-status .syncing { color: #0096ff; }
 
-        .create-input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.4);
-            border-radius: 6px;
-            color: #fff;
-            padding: 8px 12px;
-            font-size: 14px;
-            outline: none;
-        }
-        .create-input:focus {
-            border-color: #22c55e;
-            box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
-        }
-        .create-input::placeholder { color: rgba(255,255,255,0.4); }
-
-        .btn {
-            background: rgba(34, 197, 94, 0.2);
-            border: 1px solid rgba(34, 197, 94, 0.5);
-            color: #22c55e;
-            padding: 8px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-        .btn:hover {
-            background: rgba(34, 197, 94, 0.35);
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
-        }
-        .btn.danger {
-            background: rgba(220, 50, 50, 0.2);
-            border-color: rgba(220, 50, 50, 0.5);
-            color: #dc3232;
-        }
-        .btn.danger:hover {
-            background: rgba(220, 50, 50, 0.35);
-        }
-        .btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .playlist-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-        }
-
-        .playlist-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-bottom: 4px;
-        }
-        .playlist-item:hover { background: rgba(34, 197, 94, 0.1); }
-        .playlist-item.active {
-            background: rgba(34, 197, 94, 0.2);
-            border: 1px solid rgba(34, 197, 94, 0.4);
-        }
-
-        .playlist-name {
-            flex: 1;
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .playlist-count {
-            color: rgba(255,255,255,0.4);
-            font-size: 12px;
-            margin-left: 8px;
-        }
-
-        .playlist-actions {
-            display: flex;
-            gap: 4px;
-            margin-left: 8px;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.4);
-            cursor: pointer;
-            font-size: 14px;
-            padding: 4px;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-        .icon-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
-        .icon-btn.delete:hover { color: #dc3232; }
-
-        /* Main Content */
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* Upload Bar */
-        .upload-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 24px;
-            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
-        }
-
-        .upload-bar h3 {
-            color: #22c55e;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        #fileInput { display: none; }
-
-        /* Track List */
-        .track-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px 24px;
-        }
-
-        .track-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 4px;
-            transition: background 0.2s;
-            border: 1px solid transparent;
-        }
+        /* Track list */
+        .track-list { flex: 1; overflow-y: auto; padding: 10px 24px; }
+        .track-item { display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; margin-bottom: 4px; transition: background 0.2s; border: 1px solid transparent; }
         .track-item:hover { background: rgba(255,255,255,0.05); }
-        .track-item.playing {
-            background: rgba(34, 197, 94, 0.15);
-            border-color: rgba(34, 197, 94, 0.3);
-        }
-
-        .track-num {
-            color: rgba(255,255,255,0.3);
-            font-size: 14px;
-            width: 30px;
-            text-align: center;
-        }
+        .track-item.playing { background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.3); }
+        .track-num { color: rgba(255,255,255,0.3); font-size: 14px; width: 30px; text-align: center; }
         .track-item.playing .track-num { color: #22c55e; }
-
-        .track-play-btn {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            font-size: 18px;
-            padding: 4px 8px;
-            transition: color 0.2s;
-        }
+        .track-play-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 18px; padding: 4px 8px; transition: color 0.2s; }
         .track-play-btn:hover { color: #22c55e; }
         .track-item.playing .track-play-btn { color: #22c55e; }
-
-        .track-title {
-            flex: 1;
-            font-size: 15px;
-            margin-left: 8px;
-        }
+        .track-title { flex: 1; font-size: 15px; margin-left: 8px; }
         .track-item.playing .track-title { color: #22c55e; font-weight: 600; }
+        .track-cache-icon { font-size: 12px; margin-right: 8px; }
+        .track-cache-icon.cached { color: #22c55e; }
+        .track-cache-icon.not-cached { color: rgba(255,255,255,0.15); }
 
-        .track-duration {
-            color: rgba(255,255,255,0.3);
-            font-size: 13px;
-            margin-right: 12px;
-        }
-
-        .track-actions {
-            display: flex;
-            gap: 2px;
-        }
-
-        .empty-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            color: rgba(255,255,255,0.3);
-            font-size: 16px;
-            gap: 12px;
-        }
+        .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; color: rgba(255,255,255,0.3); font-size: 16px; gap: 12px; }
         .empty-state .icon { font-size: 48px; }
 
-        /* Player Bar */
-        .player-bar {
-            border-top: 1px solid rgba(34, 197, 94, 0.3);
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background: rgba(34, 197, 94, 0.05);
-        }
+        /* Player bar */
+        .player-bar { border-top: 1px solid rgba(34,197,94,0.3); padding: 16px 24px; display: flex; align-items: center; gap: 16px; background: rgba(34,197,94,0.05); }
+        .now-playing { width: 200px; overflow: hidden; }
+        .now-playing .title { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .now-playing .subtitle { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+        .player-controls { display: flex; align-items: center; gap: 8px; }
+        .ctrl-btn { background: none; border: 2px solid rgba(34,197,94,0.5); color: #22c55e; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .ctrl-btn:hover { background: rgba(34,197,94,0.2); border-color: #22c55e; }
+        .ctrl-btn.main { width: 48px; height: 48px; font-size: 20px; border-width: 3px; }
+        .ctrl-btn.stop { border-color: rgba(220,50,50,0.5); color: #dc3232; }
+        .ctrl-btn.stop:hover { background: rgba(220,50,50,0.2); border-color: #dc3232; }
+        .progress-section { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .progress-bar-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; cursor: pointer; }
+        .progress-bar { height: 100%; background: #22c55e; border-radius: 3px; width: 0%; transition: width 0.1s linear; }
+        .progress-times { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.4); }
+        .volume-section { display: flex; align-items: center; gap: 8px; width: 140px; }
+        .volume-icon { color: rgba(255,255,255,0.5); font-size: 16px; cursor: pointer; }
+        .volume-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; outline: none; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #22c55e; cursor: pointer; }
 
-        .now-playing {
-            width: 200px;
-            overflow: hidden;
-        }
-
-        .now-playing .title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .now-playing .subtitle {
-            font-size: 11px;
-            color: rgba(255,255,255,0.4);
-            margin-top: 2px;
-        }
-
-        .player-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .ctrl-btn {
-            background: none;
-            border: 2px solid rgba(34, 197, 94, 0.5);
-            color: #22c55e;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        .ctrl-btn:hover {
-            background: rgba(34, 197, 94, 0.2);
-            border-color: #22c55e;
-        }
-        .ctrl-btn.main {
-            width: 48px;
-            height: 48px;
-            font-size: 20px;
-            border-width: 3px;
-        }
-        .ctrl-btn.stop {
-            border-color: rgba(220, 50, 50, 0.5);
-            color: #dc3232;
-        }
-        .ctrl-btn.stop:hover {
-            background: rgba(220, 50, 50, 0.2);
-            border-color: #dc3232;
-        }
-
-        /* Progress */
-        .progress-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .progress-bar-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: #22c55e;
-            border-radius: 3px;
-            width: 0%;
-            transition: width 0.1s linear;
-        }
-
-        .progress-times {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: rgba(255,255,255,0.4);
-        }
-
-        /* Volume */
-        .volume-section {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 140px;
-        }
-
-        .volume-icon {
-            color: rgba(255,255,255,0.5);
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .volume-slider {
-            flex: 1;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 4px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 2px;
-            outline: none;
-        }
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #22c55e;
-            cursor: pointer;
-        }
-
-        /* Music bars animation */
-        .music-bars {
-            display: flex;
-            align-items: flex-end;
-            gap: 2px;
-            height: 16px;
-        }
-        .music-bars .bar {
-            width: 3px;
-            background: #22c55e;
-            border-radius: 1px;
-            animation: musicBar 0.8s ease-in-out infinite alternate;
-        }
+        .music-bars { display: flex; align-items: flex-end; gap: 2px; height: 16px; }
+        .music-bars .bar { width: 3px; background: #22c55e; border-radius: 1px; animation: musicBar 0.8s ease-in-out infinite alternate; }
         .music-bars .bar:nth-child(1) { height: 6px; animation-delay: 0s; }
         .music-bars .bar:nth-child(2) { height: 12px; animation-delay: 0.15s; }
         .music-bars .bar:nth-child(3) { height: 8px; animation-delay: 0.3s; }
-
-        @keyframes musicBar {
-            0% { height: 4px; }
-            100% { height: 16px; }
-        }
-
+        @keyframes musicBar { 0% { height: 4px; } 100% { height: 16px; } }
         .hidden { display: none !important; }
+
+        /* Sync progress bar */
+        .sync-progress { width: 100%; height: 3px; background: rgba(0,150,255,0.1); border-radius: 2px; margin-top: 4px; overflow: hidden; }
+        .sync-progress-fill { height: 100%; background: #0096ff; border-radius: 2px; width: 0%; transition: width 0.3s; }
 
         @media (max-width: 768px) {
             .main-layout { flex-direction: column; }
@@ -439,76 +109,57 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <div class="header">
         <a href="teamconnect.html" class="back-link">&larr; Back</a>
         <span class="page-title">&#9835; Music</span>
-        <div class="music-bars hidden" id="musicBarsHeader" style="margin-left: 12px;">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
+        <div class="music-bars hidden" id="musicBarsHeader" style="margin-left:12px;"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
     </div>
 
     <div class="main-layout">
-        <!-- Sidebar: Playlist Management -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <h3>Playlists</h3>
-                <div class="create-row">
-                    <input type="text" class="create-input" id="newPlaylistName" placeholder="New playlist name..." maxlength="50">
-                    <button class="btn" onclick="createPlaylist()">+ Add</button>
-                </div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;">From Supabase &bull; TeamPlay</div>
             </div>
-            <div class="playlist-list" id="playlistList"></div>
+            <div class="playlist-list" id="playlistList">
+                <div class="empty-state" style="padding:30px;"><div>Loading playlists...</div></div>
+            </div>
         </div>
 
-        <!-- Main Content -->
         <div class="content">
-            <!-- Upload Bar -->
             <div class="upload-bar">
                 <h3 id="contentTitle">Select a playlist</h3>
+                <span class="sync-status" id="syncStatus"></span>
                 <div style="flex:1;"></div>
-                <button class="btn" onclick="document.getElementById('fileInput').click()" id="uploadBtn" disabled>
-                    &#128190; Upload MP3
+                <button class="btn sync" id="syncBtn" onclick="syncToDevice()" disabled>
+                    &#128229; Sync to Device
                 </button>
-                <input type="file" id="fileInput" accept=".mp3,audio/mpeg" multiple onchange="handleFileUpload(event)">
+            </div>
+            <div id="syncProgressWrap" class="hidden" style="padding:0 24px;">
+                <div class="sync-progress"><div class="sync-progress-fill" id="syncProgressBar"></div></div>
             </div>
 
-            <!-- Track List -->
             <div class="track-list" id="trackList">
-                <div class="empty-state">
-                    <div class="icon">&#9835;</div>
-                    <div>Select or create a playlist to get started</div>
-                </div>
+                <div class="empty-state"><div class="icon">&#9835;</div><div>Select a playlist to get started</div></div>
             </div>
         </div>
     </div>
 
-    <!-- Player Bar -->
     <div class="player-bar">
         <div class="now-playing">
             <div class="title" id="nowPlayingTitle">No track selected</div>
             <div class="subtitle" id="nowPlayingPlaylist">-</div>
         </div>
-
         <div class="player-controls">
-            <button class="ctrl-btn" onclick="prevTrack()" id="prevBtn">&#9664;</button>
+            <button class="ctrl-btn" onclick="prevTrack()">&#9664;</button>
             <button class="ctrl-btn main" onclick="togglePlayPause()" id="playBtn">&#9654;</button>
-            <button class="ctrl-btn stop" onclick="stopPlayback()" id="stopBtn">&#9632;</button>
-            <button class="ctrl-btn" onclick="nextTrack()" id="nextBtn">&#9654;</button>
+            <button class="ctrl-btn stop" onclick="stopPlayback()">&#9632;</button>
+            <button class="ctrl-btn" onclick="nextTrack()">&#9654;</button>
         </div>
-
         <div class="progress-section">
-            <div class="progress-bar-container" id="progressContainer" onclick="seekTo(event)">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <div class="progress-times">
-                <span id="currentTime">0:00</span>
-                <span id="totalTime">0:00</span>
-            </div>
+            <div class="progress-bar-container" onclick="seekTo(event)"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-times"><span id="currentTime">0:00</span><span id="totalTime">0:00</span></div>
         </div>
-
         <div class="volume-section">
             <span class="volume-icon" onclick="toggleMute()">&#128266;</span>
             <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80" oninput="setVolume(this.value)">
@@ -516,244 +167,276 @@
     </div>
 
     <script>
+        // ========== SUPABASE CONFIG ==========
+        const SUPABASE_URL = 'https://infnlcqdwycjfssymeic.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluZm5sY3Fkd3ljamZzc3ltZWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxNDYzMzUsImV4cCI6MjA3MTcyMjMzNX0.Mo4wpqV5Ax-TqOwMpNXM4NqiHv7fC0TLM3wBKAPj15Q';
+        const STORAGE_BUCKET = 'music';
+        const DB_NAME = 'tc-music-cache';
+        const DB_VERSION = 1;
+        const STORE_NAME = 'audio-files';
+
         // ========== STATE ==========
-        let playlists = JSON.parse(localStorage.getItem('tc_playlists') || '[]');
+        let playlists = [];
+        let allTracks = {}; // { playlistId: [track, ...] }
         let activePlaylistId = null;
-        let tracks = {}; // { playlistId: [{id, title, objectUrl, duration}] }
-        let audioFiles = {}; // { trackId: File }
         let currentTrackIndex = -1;
         let isPlaying = false;
+        let isSyncing = false;
+        let cachedTrackIds = new Set();
         const audio = new Audio();
         audio.volume = 0.8;
 
-        // ========== PERSISTENCE ==========
-        function savePlaylists() {
-            const data = playlists.map(p => ({ ...p }));
-            localStorage.setItem('tc_playlists', JSON.stringify(data));
+        // ========== SUPABASE HELPERS ==========
+        async function sbFetch(path) {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+            });
+            return res.json();
         }
 
-        function saveTrackMeta() {
-            const meta = {};
-            for (const pid in tracks) {
-                meta[pid] = tracks[pid].map(t => ({ id: t.id, title: t.title, duration: t.duration }));
-            }
-            localStorage.setItem('tc_tracks_meta', JSON.stringify(meta));
+        function getPublicUrl(filePath) {
+            return `${SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${filePath}`;
         }
 
-        function loadTrackMeta() {
-            const meta = JSON.parse(localStorage.getItem('tc_tracks_meta') || '{}');
-            for (const pid in meta) {
-                if (!tracks[pid]) tracks[pid] = [];
-                meta[pid].forEach(t => {
-                    if (!tracks[pid].find(x => x.id === t.id)) {
-                        tracks[pid].push({ ...t, objectUrl: null });
+        // ========== INDEXEDDB CACHE ==========
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, DB_VERSION);
+                req.onupgradeneeded = e => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME, { keyPath: 'id' });
                     }
-                });
-            }
+                };
+                req.onsuccess = e => resolve(e.target.result);
+                req.onerror = e => reject(e.target.error);
+            });
         }
 
-        // ========== PLAYLISTS ==========
-        function createPlaylist() {
-            const input = document.getElementById('newPlaylistName');
-            const name = input.value.trim();
-            if (!name) return;
-            const id = 'pl_' + Date.now();
-            playlists.push({ id, name, created: new Date().toISOString() });
-            tracks[id] = [];
-            savePlaylists();
-            input.value = '';
-            renderPlaylists();
-            selectPlaylist(id);
+        async function getCachedBlob(trackId) {
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, 'readonly');
+                const store = tx.objectStore(STORE_NAME);
+                const req = store.get(trackId);
+                req.onsuccess = () => resolve(req.result || null);
+                req.onerror = () => resolve(null);
+            });
         }
 
-        function selectPlaylist(id) {
-            activePlaylistId = id;
-            document.getElementById('uploadBtn').disabled = false;
-            const pl = playlists.find(p => p.id === id);
-            document.getElementById('contentTitle').textContent = pl ? pl.name : 'Tracks';
-            renderPlaylists();
-            renderTracks();
+        async function cacheBlob(trackId, blob, filePath, fileSize) {
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                const store = tx.objectStore(STORE_NAME);
+                store.put({ id: trackId, blob, filePath, fileSize, cachedAt: Date.now() });
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
         }
 
-        function renamePlaylist(id) {
-            const pl = playlists.find(p => p.id === id);
-            if (!pl) return;
-            const newName = prompt('Rename playlist:', pl.name);
-            if (newName && newName.trim()) {
-                pl.name = newName.trim();
-                savePlaylists();
-                renderPlaylists();
-                if (activePlaylistId === id) {
-                    document.getElementById('contentTitle').textContent = pl.name;
+        async function getAllCachedIds() {
+            const db = await openDB();
+            return new Promise((resolve) => {
+                const tx = db.transaction(STORE_NAME, 'readonly');
+                const store = tx.objectStore(STORE_NAME);
+                const req = store.getAllKeys();
+                req.onsuccess = () => resolve(new Set(req.result));
+                req.onerror = () => resolve(new Set());
+            });
+        }
+
+        async function getCachedMeta(trackId) {
+            const entry = await getCachedBlob(trackId);
+            if (!entry) return null;
+            return { fileSize: entry.fileSize, filePath: entry.filePath, cachedAt: entry.cachedAt };
+        }
+
+        // ========== LOAD DATA ==========
+        async function loadPlaylists() {
+            try {
+                playlists = await sbFetch('music_playlists?order=updated_at.desc,created_at.desc');
+                cachedTrackIds = await getAllCachedIds();
+
+                for (const pl of playlists) {
+                    const tracks = await sbFetch(`music_tracks?playlist_id=eq.${pl.id}&order=sort_order.asc,created_at.asc`);
+                    allTracks[pl.id] = tracks;
                 }
+                renderPlaylists();
+            } catch (err) {
+                document.getElementById('playlistList').innerHTML = '<div class="empty-state" style="padding:20px;color:#dc3232;">Failed to load playlists</div>';
             }
         }
 
-        function deletePlaylist(id) {
-            if (!confirm('Delete this playlist and all its tracks?')) return;
-            playlists = playlists.filter(p => p.id !== id);
-            if (tracks[id]) {
-                tracks[id].forEach(t => {
-                    if (t.objectUrl) URL.revokeObjectURL(t.objectUrl);
-                });
-                delete tracks[id];
-            }
-            savePlaylists();
-            saveTrackMeta();
-            if (activePlaylistId === id) {
-                activePlaylistId = null;
-                document.getElementById('contentTitle').textContent = 'Select a playlist';
-                document.getElementById('uploadBtn').disabled = true;
-                stopPlayback();
-            }
-            renderPlaylists();
-            renderTracks();
-        }
-
+        // ========== RENDER ==========
         function renderPlaylists() {
             const container = document.getElementById('playlistList');
             if (playlists.length === 0) {
-                container.innerHTML = '<div style="color:rgba(255,255,255,0.3);padding:20px;text-align:center;font-size:13px;">No playlists yet.<br>Create one above.</div>';
+                container.innerHTML = '<div style="color:rgba(255,255,255,0.3);padding:20px;text-align:center;font-size:13px;">No playlists found.</div>';
                 return;
             }
             container.innerHTML = playlists.map(pl => {
-                const count = (tracks[pl.id] || []).length;
+                const tracks = allTracks[pl.id] || [];
+                const cachedCount = tracks.filter(t => cachedTrackIds.has(t.id)).length;
+                const total = tracks.length;
                 const active = pl.id === activePlaylistId ? 'active' : '';
+                let badgeClass = 'none', badgeText = '';
+                if (total > 0 && cachedCount === total) { badgeClass = 'full'; badgeText = '✓ cached'; }
+                else if (cachedCount > 0) { badgeClass = 'partial'; badgeText = `${cachedCount}/${total}`; }
                 return `
                     <div class="playlist-item ${active}" onclick="selectPlaylist('${pl.id}')">
-                        <span class="playlist-name">${escHtml(pl.name)}</span>
-                        <span class="playlist-count">${count} tracks</span>
-                        <div class="playlist-actions">
-                            <button class="icon-btn" onclick="event.stopPropagation();renamePlaylist('${pl.id}')" title="Rename">&#9998;</button>
-                            <button class="icon-btn delete" onclick="event.stopPropagation();deletePlaylist('${pl.id}')" title="Delete">&#10005;</button>
-                        </div>
+                        <span class="playlist-name">${esc(pl.name)}</span>
+                        <span class="playlist-count">${total} tracks</span>
+                        <span class="playlist-cached ${badgeClass}">${badgeText}</span>
                     </div>`;
             }).join('');
         }
 
-        // ========== TRACKS ==========
-        function handleFileUpload(event) {
-            const files = Array.from(event.target.files);
-            if (!activePlaylistId || files.length === 0) return;
-            if (!tracks[activePlaylistId]) tracks[activePlaylistId] = [];
-
-            files.forEach(file => {
-                if (!file.type.includes('audio') && !file.name.toLowerCase().endsWith('.mp3')) return;
-                const id = 'tr_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
-                const title = file.name.replace(/\.mp3$/i, '').replace(/[_-]/g, ' ').replace(/\s+/g, ' ').trim();
-                const objectUrl = URL.createObjectURL(file);
-                tracks[activePlaylistId].push({ id, title, objectUrl, duration: 0 });
-                audioFiles[id] = file;
-
-                // Get duration
-                const tempAudio = new Audio(objectUrl);
-                tempAudio.addEventListener('loadedmetadata', () => {
-                    const track = tracks[activePlaylistId]?.find(t => t.id === id);
-                    if (track) {
-                        track.duration = tempAudio.duration;
-                        saveTrackMeta();
-                        renderTracks();
-                    }
-                });
-            });
-
-            saveTrackMeta();
-            renderPlaylists();
-            renderTracks();
-            event.target.value = '';
+        function renderTracks() {
+            const container = document.getElementById('trackList');
+            if (!activePlaylistId) {
+                container.innerHTML = '<div class="empty-state"><div class="icon">&#9835;</div><div>Select a playlist</div></div>';
+                return;
+            }
+            const list = allTracks[activePlaylistId] || [];
+            if (list.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="icon">&#128190;</div><div>No tracks in this playlist.</div></div>';
+                return;
+            }
+            container.innerHTML = list.map((track, i) => {
+                const playing = (currentTrackIndex === i && isPlaying) ? 'playing' : '';
+                const isCached = cachedTrackIds.has(track.id);
+                return `
+                    <div class="track-item ${playing}">
+                        <span class="track-num">${i + 1}</span>
+                        <button class="track-play-btn" onclick="playTrackAt(${i})">${currentTrackIndex === i && isPlaying ? '&#10074;&#10074;' : '&#9654;'}</button>
+                        <span class="track-title">${esc(track.title)}</span>
+                        <span class="track-cache-icon ${isCached ? 'cached' : 'not-cached'}">${isCached ? '&#128190;' : '&#9729;'}</span>
+                    </div>`;
+            }).join('');
+            updateSyncStatus();
         }
 
-        function moveTrack(trackId, direction) {
-            const list = tracks[activePlaylistId];
-            if (!list) return;
-            const idx = list.findIndex(t => t.id === trackId);
-            const newIdx = idx + direction;
-            if (newIdx < 0 || newIdx >= list.length) return;
-            [list[idx], list[newIdx]] = [list[newIdx], list[idx]];
-            // Update currentTrackIndex if needed
-            if (currentTrackIndex === idx) currentTrackIndex = newIdx;
-            else if (currentTrackIndex === newIdx) currentTrackIndex = idx;
-            saveTrackMeta();
-            renderTracks();
+        function updateSyncStatus() {
+            const list = allTracks[activePlaylistId] || [];
+            const cachedCount = list.filter(t => cachedTrackIds.has(t.id)).length;
+            const total = list.length;
+            const el = document.getElementById('syncStatus');
+            if (total === 0) { el.innerHTML = ''; return; }
+            if (cachedCount === total) {
+                el.innerHTML = '<span class="cached">&#10003; All ' + total + ' tracks cached on device</span>';
+            } else {
+                el.innerHTML = '<span>' + cachedCount + '/' + total + ' cached</span>';
+            }
         }
 
-        function deleteTrack(trackId) {
-            if (!confirm('Delete this track?')) return;
-            const list = tracks[activePlaylistId];
-            if (!list) return;
-            const idx = list.findIndex(t => t.id === trackId);
-            if (idx === -1) return;
-            const track = list[idx];
-            if (track.objectUrl) URL.revokeObjectURL(track.objectUrl);
-            list.splice(idx, 1);
-            delete audioFiles[trackId];
-            if (currentTrackIndex === idx) stopPlayback();
-            else if (currentTrackIndex > idx) currentTrackIndex--;
-            saveTrackMeta();
+        // ========== PLAYLIST SELECT ==========
+        function selectPlaylist(id) {
+            activePlaylistId = id;
+            const pl = playlists.find(p => p.id === id);
+            document.getElementById('contentTitle').textContent = pl ? pl.name : 'Tracks';
+            document.getElementById('syncBtn').disabled = false;
             renderPlaylists();
             renderTracks();
         }
 
-        function playTrackAt(index) {
-            const list = tracks[activePlaylistId];
+        // ========== SYNC TO DEVICE ==========
+        async function syncToDevice() {
+            if (!activePlaylistId || isSyncing) return;
+            const list = allTracks[activePlaylistId] || [];
+            if (list.length === 0) return;
+
+            isSyncing = true;
+            const btn = document.getElementById('syncBtn');
+            const progressWrap = document.getElementById('syncProgressWrap');
+            const progressBar = document.getElementById('syncProgressBar');
+            btn.classList.add('syncing');
+            btn.textContent = '⟳ Syncing...';
+            progressWrap.classList.remove('hidden');
+
+            let done = 0, skipped = 0, failed = 0;
+
+            for (const track of list) {
+                // Check if already cached with same file_size (unchanged)
+                const meta = await getCachedMeta(track.id);
+                if (meta && meta.filePath === track.file_path && meta.fileSize === track.file_size) {
+                    skipped++;
+                    done++;
+                    progressBar.style.width = ((done / list.length) * 100) + '%';
+                    btn.textContent = `⟳ ${done}/${list.length}`;
+                    continue;
+                }
+
+                // Download and cache
+                try {
+                    const url = getPublicUrl(track.file_path);
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    const blob = await response.blob();
+                    await cacheBlob(track.id, blob, track.file_path, track.file_size);
+                    cachedTrackIds.add(track.id);
+                } catch (err) {
+                    console.error('Failed to cache track:', track.title, err);
+                    failed++;
+                }
+                done++;
+                progressBar.style.width = ((done / list.length) * 100) + '%';
+                btn.textContent = `⟳ ${done}/${list.length}`;
+            }
+
+            isSyncing = false;
+            btn.classList.remove('syncing');
+            const downloaded = done - skipped - failed;
+            if (failed > 0) {
+                btn.textContent = `⚠ ${failed} failed`;
+            } else if (downloaded === 0) {
+                btn.textContent = '✓ Already synced';
+            } else {
+                btn.textContent = `✓ ${downloaded} downloaded`;
+            }
+            setTimeout(() => { btn.textContent = '📥 Sync to Device'; progressWrap.classList.add('hidden'); }, 3000);
+
+            renderPlaylists();
+            renderTracks();
+        }
+
+        // ========== PLAYBACK ==========
+        async function getAudioUrl(track) {
+            // Try local cache first
+            const cached = await getCachedBlob(track.id);
+            if (cached && cached.blob) {
+                return URL.createObjectURL(cached.blob);
+            }
+            // Fall back to Supabase public URL
+            return getPublicUrl(track.file_path);
+        }
+
+        async function playTrackAt(index) {
+            const list = allTracks[activePlaylistId];
             if (!list || index < 0 || index >= list.length) return;
             const track = list[index];
-            if (!track.objectUrl) return;
-
             currentTrackIndex = index;
-            audio.src = track.objectUrl;
+
+            const url = await getAudioUrl(track);
+            audio.src = url;
             audio.play().catch(() => {});
             isPlaying = true;
             updatePlayerUI();
             renderTracks();
         }
 
-        function renderTracks() {
-            const container = document.getElementById('trackList');
-            if (!activePlaylistId) {
-                container.innerHTML = '<div class="empty-state"><div class="icon">&#9835;</div><div>Select or create a playlist to get started</div></div>';
-                return;
-            }
-            const list = tracks[activePlaylistId] || [];
-            if (list.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="icon">&#128190;</div><div>No tracks yet. Upload MP3 files to add music.</div></div>';
-                return;
-            }
-            container.innerHTML = list.map((track, i) => {
-                const playing = (currentTrackIndex === i && isPlaying) ? 'playing' : '';
-                const dur = formatTime(track.duration || 0);
-                return `
-                    <div class="track-item ${playing}">
-                        <span class="track-num">${i + 1}</span>
-                        <button class="track-play-btn" onclick="playTrackAt(${i})">${currentTrackIndex === i && isPlaying ? '&#10074;&#10074;' : '&#9654;'}</button>
-                        <span class="track-title">${escHtml(track.title)}</span>
-                        <span class="track-duration">${dur}</span>
-                        <div class="track-actions">
-                            <button class="icon-btn" onclick="moveTrack('${track.id}', -1)" title="Move up" ${i === 0 ? 'disabled' : ''}>&#9650;</button>
-                            <button class="icon-btn" onclick="moveTrack('${track.id}', 1)" title="Move down" ${i === list.length - 1 ? 'disabled' : ''}>&#9660;</button>
-                            <button class="icon-btn delete" onclick="deleteTrack('${track.id}')" title="Delete">&#10005;</button>
-                        </div>
-                    </div>`;
-            }).join('');
-        }
-
-        // ========== PLAYER ==========
         function togglePlayPause() {
             if (!activePlaylistId) return;
-            const list = tracks[activePlaylistId] || [];
+            const list = allTracks[activePlaylistId] || [];
             if (list.length === 0) return;
 
             if (isPlaying) {
                 audio.pause();
                 isPlaying = false;
             } else {
-                if (currentTrackIndex < 0) currentTrackIndex = 0;
-                const track = list[currentTrackIndex];
-                if (track && track.objectUrl) {
-                    if (audio.src !== track.objectUrl) audio.src = track.objectUrl;
-                    audio.play().catch(() => {});
-                    isPlaying = true;
-                }
+                if (currentTrackIndex < 0) { playTrackAt(0); return; }
+                audio.play().catch(() => {});
+                isPlaying = true;
             }
             updatePlayerUI();
             renderTracks();
@@ -769,65 +452,44 @@
         }
 
         function prevTrack() {
-            if (!activePlaylistId) return;
-            const list = tracks[activePlaylistId] || [];
-            if (currentTrackIndex > 0) {
-                playTrackAt(currentTrackIndex - 1);
-            }
+            if (currentTrackIndex > 0) playTrackAt(currentTrackIndex - 1);
         }
 
         function nextTrack() {
-            if (!activePlaylistId) return;
-            const list = tracks[activePlaylistId] || [];
-            if (currentTrackIndex < list.length - 1) {
-                playTrackAt(currentTrackIndex + 1);
-            }
+            const list = allTracks[activePlaylistId] || [];
+            if (currentTrackIndex < list.length - 1) playTrackAt(currentTrackIndex + 1);
         }
 
-        function setVolume(val) {
-            audio.volume = val / 100;
-            audio.muted = false;
-        }
-
+        function setVolume(val) { audio.volume = val / 100; audio.muted = false; }
         function toggleMute() {
             audio.muted = !audio.muted;
             document.querySelector('.volume-icon').textContent = audio.muted ? '🔇' : '🔊';
         }
-
         function seekTo(event) {
             if (!audio.duration) return;
             const rect = event.currentTarget.getBoundingClientRect();
-            const pct = (event.clientX - rect.left) / rect.width;
-            audio.currentTime = pct * audio.duration;
+            audio.currentTime = ((event.clientX - rect.left) / rect.width) * audio.duration;
         }
 
-        // Auto-advance
         audio.addEventListener('ended', () => {
-            const list = tracks[activePlaylistId] || [];
-            if (currentTrackIndex < list.length - 1) {
-                playTrackAt(currentTrackIndex + 1);
-            } else {
-                stopPlayback();
-            }
+            const list = allTracks[activePlaylistId] || [];
+            if (currentTrackIndex < list.length - 1) playTrackAt(currentTrackIndex + 1);
+            else stopPlayback();
         });
 
-        // Progress update
         audio.addEventListener('timeupdate', () => {
             if (!audio.duration) return;
-            const pct = (audio.currentTime / audio.duration) * 100;
-            document.getElementById('progressBar').style.width = pct + '%';
-            document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
-            document.getElementById('totalTime').textContent = formatTime(audio.duration);
+            document.getElementById('progressBar').style.width = ((audio.currentTime / audio.duration) * 100) + '%';
+            document.getElementById('currentTime').textContent = fmt(audio.currentTime);
+            document.getElementById('totalTime').textContent = fmt(audio.duration);
         });
 
         function updatePlayerUI() {
-            const playBtn = document.getElementById('playBtn');
+            document.getElementById('playBtn').innerHTML = isPlaying ? '&#10074;&#10074;' : '&#9654;';
             const bars = document.getElementById('musicBarsHeader');
-            playBtn.innerHTML = isPlaying ? '&#10074;&#10074;' : '&#9654;';
-
             if (isPlaying) {
                 bars.classList.remove('hidden');
-                const list = tracks[activePlaylistId] || [];
+                const list = allTracks[activePlaylistId] || [];
                 const track = list[currentTrackIndex];
                 const pl = playlists.find(p => p.id === activePlaylistId);
                 document.getElementById('nowPlayingTitle').textContent = track ? track.title : 'Unknown';
@@ -842,28 +504,11 @@
         }
 
         // ========== HELPERS ==========
-        function formatTime(sec) {
-            if (!sec || isNaN(sec)) return '0:00';
-            const m = Math.floor(sec / 60);
-            const s = Math.floor(sec % 60);
-            return m + ':' + (s < 10 ? '0' : '') + s;
-        }
-
-        function escHtml(str) {
-            const d = document.createElement('div');
-            d.textContent = str;
-            return d.innerHTML;
-        }
-
-        // Enter key to create playlist
-        document.getElementById('newPlaylistName').addEventListener('keydown', e => {
-            if (e.key === 'Enter') createPlaylist();
-        });
+        function fmt(s) { if (!s || isNaN(s)) return '0:00'; const m = Math.floor(s/60); const sec = Math.floor(s%60); return m+':'+(sec<10?'0':'')+sec; }
+        function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
         // ========== INIT ==========
-        loadTrackMeta();
-        renderPlaylists();
-        renderTracks();
+        loadPlaylists();
     </script>
 </body>
 </html>
