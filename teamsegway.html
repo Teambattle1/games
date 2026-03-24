@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamSegway</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px 20px;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #dc3232;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: opacity 0.3s ease;
+        }
+        .back-link:hover { opacity: 0.7; }
+
+        .title {
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+        .title .accent { color: #dc3232; text-shadow: 0 0 20px rgba(220, 50, 50, 0.5); }
+
+        .subtitle {
+            color: #dc3232;
+            font-size: 22px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .title { font-size: 28px; }
+            .subtitle { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">&larr; Back</a>
+    <h1 class="title">Team<span class="accent">Segway</span></h1>
+    <p class="subtitle">Coming Soon</p>
+</body>
+</html>
