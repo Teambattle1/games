@@ -5,27 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventDay</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #000;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #000; min-height: 100vh; display: flex; justify-content: center; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         .container {
-            display: flex;
-            gap: 80px;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 50px 60px;
             padding: 40px;
+            justify-items: center;
         }
 
         .icon-link {
@@ -35,30 +23,17 @@
             text-decoration: none;
             transition: transform 0.3s ease;
         }
-
-        .icon-link:hover {
-            transform: scale(1.1);
-        }
+        .icon-link:hover { transform: scale(1.1); }
 
         .icon {
-            width: 180px;
-            height: 180px;
-            background: linear-gradient(135deg, rgba(255, 140, 50, 0.9) 0%, rgba(255, 102, 0, 0.7) 50%, rgba(200, 80, 0, 0.8) 100%);
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
-            box-shadow:
-                0 0 20px rgba(255, 102, 0, 0.6),
-                0 0 40px rgba(255, 102, 0, 0.4),
-                0 0 60px rgba(255, 102, 0, 0.3),
-                0 0 80px rgba(255, 102, 0, 0.2),
-                inset 0 0 30px rgba(255, 180, 100, 0.3),
-                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(255, 180, 100, 0.5);
+            margin-bottom: 16px;
             transition: all 0.3s ease;
-            animation: pulse 2s ease-in-out infinite;
             position: relative;
             overflow: hidden;
         }
@@ -70,247 +45,163 @@
             left: 20%;
             width: 60%;
             height: 30%;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
             border-radius: 50%;
             pointer-events: none;
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow:
-                    0 0 20px rgba(255, 102, 0, 0.6),
-                    0 0 40px rgba(255, 102, 0, 0.4),
-                    0 0 60px rgba(255, 102, 0, 0.3),
-                    0 0 80px rgba(255, 102, 0, 0.2),
-                    inset 0 0 30px rgba(255, 180, 100, 0.3),
-                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            }
-            50% {
-                box-shadow:
-                    0 0 30px rgba(255, 102, 0, 0.8),
-                    0 0 60px rgba(255, 102, 0, 0.5),
-                    0 0 90px rgba(255, 102, 0, 0.4),
-                    0 0 120px rgba(255, 102, 0, 0.3),
-                    inset 0 0 30px rgba(255, 180, 100, 0.4),
-                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            }
-        }
-
-        .icon-link:hover .icon {
-            box-shadow:
-                0 0 40px rgba(255, 102, 0, 0.9),
-                0 0 80px rgba(255, 102, 0, 0.6),
-                0 0 120px rgba(255, 102, 0, 0.4),
-                0 0 160px rgba(255, 102, 0, 0.3),
-                inset 0 0 30px rgba(255, 180, 100, 0.5),
-                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            animation: none;
-        }
-
         .icon svg {
-            width: 80px;
-            height: 80px;
+            width: 65px;
+            height: 65px;
             fill: rgba(0, 0, 0, 0.8);
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
             position: relative;
             z-index: 1;
         }
 
         .label {
-            color: #ff6600;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
             letter-spacing: 2px;
             text-transform: uppercase;
+            white-space: nowrap;
         }
+
+        /* ===== COLOR DEFINITIONS ===== */
+
+        /* Orange - TeamPlay */
+        .c-orange { background: linear-gradient(135deg, rgba(255,140,50,0.9), rgba(255,102,0,0.7) 50%, rgba(200,80,0,0.8)); box-shadow: 0 0 20px rgba(255,102,0,0.6), 0 0 40px rgba(255,102,0,0.4), 0 0 60px rgba(255,102,0,0.3), inset 0 0 30px rgba(255,180,100,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); border: 2px solid rgba(255,180,100,0.5); animation: p-orange 2s ease-in-out infinite; }
+        @keyframes p-orange { 0%,100% { box-shadow: 0 0 20px rgba(255,102,0,0.6), 0 0 40px rgba(255,102,0,0.4), 0 0 60px rgba(255,102,0,0.3), inset 0 0 30px rgba(255,180,100,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); } 50% { box-shadow: 0 0 30px rgba(255,102,0,0.8), 0 0 60px rgba(255,102,0,0.5), 0 0 90px rgba(255,102,0,0.4), inset 0 0 30px rgba(255,180,100,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); } }
+        .icon-link:hover .c-orange { box-shadow: 0 0 40px rgba(255,102,0,0.9), 0 0 80px rgba(255,102,0,0.6), 0 0 120px rgba(255,102,0,0.4), inset 0 0 30px rgba(255,180,100,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .l-orange { color: #ff6600; }
 
         /* Gold - TeamTaste */
-        .icon.gold {
-            background: linear-gradient(135deg, rgba(255, 215, 100, 0.9) 0%, rgba(218, 165, 32, 0.7) 50%, rgba(184, 134, 11, 0.8) 100%);
-            box-shadow:
-                0 0 20px rgba(218, 165, 32, 0.6),
-                0 0 40px rgba(218, 165, 32, 0.4),
-                0 0 60px rgba(218, 165, 32, 0.3),
-                0 0 80px rgba(218, 165, 32, 0.2),
-                inset 0 0 30px rgba(255, 235, 150, 0.3),
-                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(255, 235, 150, 0.5);
-            animation: pulse-gold 2s ease-in-out infinite;
-        }
+        .c-gold { background: linear-gradient(135deg, rgba(255,215,100,0.9), rgba(218,165,32,0.7) 50%, rgba(184,134,11,0.8)); box-shadow: 0 0 20px rgba(218,165,32,0.6), 0 0 40px rgba(218,165,32,0.4), 0 0 60px rgba(218,165,32,0.3), inset 0 0 30px rgba(255,235,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); border: 2px solid rgba(255,235,150,0.5); animation: p-gold 2s ease-in-out infinite; }
+        @keyframes p-gold { 0%,100% { box-shadow: 0 0 20px rgba(218,165,32,0.6), 0 0 40px rgba(218,165,32,0.4), 0 0 60px rgba(218,165,32,0.3), inset 0 0 30px rgba(255,235,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); } 50% { box-shadow: 0 0 30px rgba(218,165,32,0.8), 0 0 60px rgba(218,165,32,0.5), 0 0 90px rgba(218,165,32,0.4), inset 0 0 30px rgba(255,235,150,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); } }
+        .icon-link:hover .c-gold { box-shadow: 0 0 40px rgba(218,165,32,0.9), 0 0 80px rgba(218,165,32,0.6), 0 0 120px rgba(218,165,32,0.4), inset 0 0 30px rgba(255,235,150,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .l-gold { color: #daa520; }
 
-        @keyframes pulse-gold {
-            0%, 100% {
-                box-shadow:
-                    0 0 20px rgba(218, 165, 32, 0.6),
-                    0 0 40px rgba(218, 165, 32, 0.4),
-                    0 0 60px rgba(218, 165, 32, 0.3),
-                    0 0 80px rgba(218, 165, 32, 0.2),
-                    inset 0 0 30px rgba(255, 235, 150, 0.3),
-                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            }
-            50% {
-                box-shadow:
-                    0 0 30px rgba(218, 165, 32, 0.8),
-                    0 0 60px rgba(218, 165, 32, 0.5),
-                    0 0 90px rgba(218, 165, 32, 0.4),
-                    0 0 120px rgba(218, 165, 32, 0.3),
-                    inset 0 0 30px rgba(255, 235, 150, 0.4),
-                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            }
-        }
+        /* Light Blue - TeamTrack */
+        .c-lightblue { background: linear-gradient(135deg, rgba(130,200,255,0.9), rgba(70,150,230,0.7) 50%, rgba(40,120,200,0.8)); box-shadow: 0 0 20px rgba(70,150,230,0.6), 0 0 40px rgba(70,150,230,0.4), 0 0 60px rgba(70,150,230,0.3), inset 0 0 30px rgba(160,210,255,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); border: 2px solid rgba(160,210,255,0.5); animation: p-lightblue 2s ease-in-out infinite; }
+        @keyframes p-lightblue { 0%,100% { box-shadow: 0 0 20px rgba(70,150,230,0.6), 0 0 40px rgba(70,150,230,0.4), 0 0 60px rgba(70,150,230,0.3), inset 0 0 30px rgba(160,210,255,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); } 50% { box-shadow: 0 0 30px rgba(70,150,230,0.8), 0 0 60px rgba(70,150,230,0.5), 0 0 90px rgba(70,150,230,0.4), inset 0 0 30px rgba(160,210,255,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); } }
+        .icon-link:hover .c-lightblue { box-shadow: 0 0 40px rgba(70,150,230,0.9), 0 0 80px rgba(70,150,230,0.6), 0 0 120px rgba(70,150,230,0.4), inset 0 0 30px rgba(160,210,255,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .l-lightblue { color: #4696e6; }
 
-        .icon-link:hover .icon.gold {
-            box-shadow:
-                0 0 40px rgba(218, 165, 32, 0.9),
-                0 0 80px rgba(218, 165, 32, 0.6),
-                0 0 120px rgba(218, 165, 32, 0.4),
-                0 0 160px rgba(218, 165, 32, 0.3),
-                inset 0 0 30px rgba(255, 235, 150, 0.5),
-                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            animation: none;
-        }
+        /* Purple - TeamConnect */
+        .c-purple { background: linear-gradient(135deg, rgba(190,130,255,0.9), rgba(140,70,220,0.7) 50%, rgba(100,40,180,0.8)); box-shadow: 0 0 20px rgba(140,70,220,0.6), 0 0 40px rgba(140,70,220,0.4), 0 0 60px rgba(140,70,220,0.3), inset 0 0 30px rgba(200,160,255,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); border: 2px solid rgba(200,160,255,0.5); animation: p-purple 2s ease-in-out infinite; }
+        @keyframes p-purple { 0%,100% { box-shadow: 0 0 20px rgba(140,70,220,0.6), 0 0 40px rgba(140,70,220,0.4), 0 0 60px rgba(140,70,220,0.3), inset 0 0 30px rgba(200,160,255,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); } 50% { box-shadow: 0 0 30px rgba(140,70,220,0.8), 0 0 60px rgba(140,70,220,0.5), 0 0 90px rgba(140,70,220,0.4), inset 0 0 30px rgba(200,160,255,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); } }
+        .icon-link:hover .c-purple { box-shadow: 0 0 40px rgba(140,70,220,0.9), 0 0 80px rgba(140,70,220,0.6), 0 0 120px rgba(140,70,220,0.4), inset 0 0 30px rgba(200,160,255,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .l-purple { color: #a855f7; }
 
-        .label.gold {
-            color: #daa520;
-        }
+        /* Blue - TeamPlazer */
+        .c-blue { background: linear-gradient(135deg, rgba(80,130,255,0.9), rgba(30,80,220,0.7) 50%, rgba(15,50,180,0.8)); box-shadow: 0 0 20px rgba(30,80,220,0.6), 0 0 40px rgba(30,80,220,0.4), 0 0 60px rgba(30,80,220,0.3), inset 0 0 30px rgba(120,160,255,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); border: 2px solid rgba(120,160,255,0.5); animation: p-blue 2s ease-in-out infinite; }
+        @keyframes p-blue { 0%,100% { box-shadow: 0 0 20px rgba(30,80,220,0.6), 0 0 40px rgba(30,80,220,0.4), 0 0 60px rgba(30,80,220,0.3), inset 0 0 30px rgba(120,160,255,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); } 50% { box-shadow: 0 0 30px rgba(30,80,220,0.8), 0 0 60px rgba(30,80,220,0.5), 0 0 90px rgba(30,80,220,0.4), inset 0 0 30px rgba(120,160,255,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); } }
+        .icon-link:hover .c-blue { box-shadow: 0 0 40px rgba(30,80,220,0.9), 0 0 80px rgba(30,80,220,0.6), 0 0 120px rgba(30,80,220,0.4), inset 0 0 30px rgba(120,160,255,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .l-blue { color: #3b82f6; }
 
-        /* Green - TeamTrack */
-        .icon.green {
-            background: linear-gradient(135deg, rgba(100, 220, 100, 0.9) 0%, rgba(34, 197, 94, 0.7) 50%, rgba(22, 163, 74, 0.8) 100%);
-            box-shadow:
-                0 0 20px rgba(34, 197, 94, 0.6),
-                0 0 40px rgba(34, 197, 94, 0.4),
-                0 0 60px rgba(34, 197, 94, 0.3),
-                0 0 80px rgba(34, 197, 94, 0.2),
-                inset 0 0 30px rgba(150, 255, 150, 0.3),
-                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(150, 255, 150, 0.5);
-            animation: pulse-green 2s ease-in-out infinite;
-        }
+        /* Black - TeamRace */
+        .c-black { background: linear-gradient(135deg, rgba(80,80,80,0.9), rgba(40,40,40,0.7) 50%, rgba(15,15,15,0.8)); box-shadow: 0 0 20px rgba(80,80,80,0.6), 0 0 40px rgba(80,80,80,0.4), 0 0 60px rgba(60,60,60,0.3), inset 0 0 30px rgba(120,120,120,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); border: 2px solid rgba(150,150,150,0.4); animation: p-black 2s ease-in-out infinite; }
+        .c-black svg { fill: rgba(255,255,255,0.9); }
+        @keyframes p-black { 0%,100% { box-shadow: 0 0 20px rgba(80,80,80,0.6), 0 0 40px rgba(80,80,80,0.4), 0 0 60px rgba(60,60,60,0.3), inset 0 0 30px rgba(120,120,120,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); } 50% { box-shadow: 0 0 30px rgba(100,100,100,0.8), 0 0 60px rgba(80,80,80,0.5), 0 0 90px rgba(60,60,60,0.4), inset 0 0 30px rgba(120,120,120,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); } }
+        .icon-link:hover .c-black { box-shadow: 0 0 40px rgba(120,120,120,0.9), 0 0 80px rgba(100,100,100,0.6), 0 0 120px rgba(80,80,80,0.4), inset 0 0 30px rgba(150,150,150,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .l-black { color: #e0e0e0; }
 
-        @keyframes pulse-green {
-            0%, 100% {
-                box-shadow:
-                    0 0 20px rgba(34, 197, 94, 0.6),
-                    0 0 40px rgba(34, 197, 94, 0.4),
-                    0 0 60px rgba(34, 197, 94, 0.3),
-                    0 0 80px rgba(34, 197, 94, 0.2),
-                    inset 0 0 30px rgba(150, 255, 150, 0.3),
-                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            }
-            50% {
-                box-shadow:
-                    0 0 30px rgba(34, 197, 94, 0.8),
-                    0 0 60px rgba(34, 197, 94, 0.5),
-                    0 0 90px rgba(34, 197, 94, 0.4),
-                    0 0 120px rgba(34, 197, 94, 0.3),
-                    inset 0 0 30px rgba(150, 255, 150, 0.4),
-                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            }
-        }
+        /* Dark Green - TeamBox */
+        .c-darkgreen { background: linear-gradient(135deg, rgba(60,140,60,0.9), rgba(30,100,30,0.7) 50%, rgba(15,70,15,0.8)); box-shadow: 0 0 20px rgba(30,100,30,0.6), 0 0 40px rgba(30,100,30,0.4), 0 0 60px rgba(30,100,30,0.3), inset 0 0 30px rgba(80,160,80,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); border: 2px solid rgba(80,160,80,0.5); animation: p-darkgreen 2s ease-in-out infinite; }
+        @keyframes p-darkgreen { 0%,100% { box-shadow: 0 0 20px rgba(30,100,30,0.6), 0 0 40px rgba(30,100,30,0.4), 0 0 60px rgba(30,100,30,0.3), inset 0 0 30px rgba(80,160,80,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); } 50% { box-shadow: 0 0 30px rgba(30,100,30,0.8), 0 0 60px rgba(30,100,30,0.5), 0 0 90px rgba(30,100,30,0.4), inset 0 0 30px rgba(80,160,80,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); } }
+        .icon-link:hover .c-darkgreen { box-shadow: 0 0 40px rgba(30,100,30,0.9), 0 0 80px rgba(30,100,30,0.6), 0 0 120px rgba(30,100,30,0.4), inset 0 0 30px rgba(80,160,80,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .l-darkgreen { color: #2d8a2d; }
 
-        .icon-link:hover .icon.green {
-            box-shadow:
-                0 0 40px rgba(34, 197, 94, 0.9),
-                0 0 80px rgba(34, 197, 94, 0.6),
-                0 0 120px rgba(34, 197, 94, 0.4),
-                0 0 160px rgba(34, 197, 94, 0.3),
-                inset 0 0 30px rgba(150, 255, 150, 0.5),
-                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            animation: none;
-        }
+        /* Light Green - TeamRobin */
+        .c-lightgreen { background: linear-gradient(135deg, rgba(140,255,140,0.9), rgba(80,220,80,0.7) 50%, rgba(50,190,50,0.8)); box-shadow: 0 0 20px rgba(80,220,80,0.6), 0 0 40px rgba(80,220,80,0.4), 0 0 60px rgba(80,220,80,0.3), inset 0 0 30px rgba(170,255,170,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); border: 2px solid rgba(170,255,170,0.5); animation: p-lightgreen 2s ease-in-out infinite; }
+        @keyframes p-lightgreen { 0%,100% { box-shadow: 0 0 20px rgba(80,220,80,0.6), 0 0 40px rgba(80,220,80,0.4), 0 0 60px rgba(80,220,80,0.3), inset 0 0 30px rgba(170,255,170,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); } 50% { box-shadow: 0 0 30px rgba(80,220,80,0.8), 0 0 60px rgba(80,220,80,0.5), 0 0 90px rgba(80,220,80,0.4), inset 0 0 30px rgba(170,255,170,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); } }
+        .icon-link:hover .c-lightgreen { box-shadow: 0 0 40px rgba(80,220,80,0.9), 0 0 80px rgba(80,220,80,0.6), 0 0 120px rgba(80,220,80,0.4), inset 0 0 30px rgba(170,255,170,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .l-lightgreen { color: #50dc50; }
 
-        .label.green {
-            color: #22c55e;
-        }
+        /* Red - TeamSegway */
+        .c-red { background: linear-gradient(135deg, rgba(255,100,100,0.9), rgba(220,50,50,0.7) 50%, rgba(180,30,30,0.8)); box-shadow: 0 0 20px rgba(220,50,50,0.6), 0 0 40px rgba(220,50,50,0.4), 0 0 60px rgba(220,50,50,0.3), inset 0 0 30px rgba(255,150,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); border: 2px solid rgba(255,150,150,0.5); animation: p-red 2s ease-in-out infinite; }
+        @keyframes p-red { 0%,100% { box-shadow: 0 0 20px rgba(220,50,50,0.6), 0 0 40px rgba(220,50,50,0.4), 0 0 60px rgba(220,50,50,0.3), inset 0 0 30px rgba(255,150,150,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); } 50% { box-shadow: 0 0 30px rgba(220,50,50,0.8), 0 0 60px rgba(220,50,50,0.5), 0 0 90px rgba(220,50,50,0.4), inset 0 0 30px rgba(255,150,150,0.4), inset 0 -20px 40px rgba(0,0,0,0.2); } }
+        .icon-link:hover .c-red { box-shadow: 0 0 40px rgba(220,50,50,0.9), 0 0 80px rgba(220,50,50,0.6), 0 0 120px rgba(220,50,50,0.4), inset 0 0 30px rgba(255,150,150,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .l-red { color: #dc3232; }
 
-        /* Red - TeamConnect */
-        .icon.red {
-            background: linear-gradient(135deg, rgba(255, 100, 100, 0.9) 0%, rgba(220, 50, 50, 0.7) 50%, rgba(180, 30, 30, 0.8) 100%);
-            box-shadow:
-                0 0 20px rgba(220, 50, 50, 0.6),
-                0 0 40px rgba(220, 50, 50, 0.4),
-                0 0 60px rgba(220, 50, 50, 0.3),
-                0 0 80px rgba(220, 50, 50, 0.2),
-                inset 0 0 30px rgba(255, 150, 150, 0.3),
-                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(255, 150, 150, 0.5);
-            animation: pulse-red 2s ease-in-out infinite;
-        }
+        /* Last row centering for odd count */
+        .container > :nth-child(9) { grid-column: 2; }
 
-        @keyframes pulse-red {
-            0%, 100% {
-                box-shadow:
-                    0 0 20px rgba(220, 50, 50, 0.6),
-                    0 0 40px rgba(220, 50, 50, 0.4),
-                    0 0 60px rgba(220, 50, 50, 0.3),
-                    0 0 80px rgba(220, 50, 50, 0.2),
-                    inset 0 0 30px rgba(255, 150, 150, 0.3),
-                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            }
-            50% {
-                box-shadow:
-                    0 0 30px rgba(220, 50, 50, 0.8),
-                    0 0 60px rgba(220, 50, 50, 0.5),
-                    0 0 90px rgba(220, 50, 50, 0.4),
-                    0 0 120px rgba(220, 50, 50, 0.3),
-                    inset 0 0 30px rgba(255, 150, 150, 0.4),
-                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            }
-        }
-
-        .icon-link:hover .icon.red {
-            box-shadow:
-                0 0 40px rgba(220, 50, 50, 0.9),
-                0 0 80px rgba(220, 50, 50, 0.6),
-                0 0 120px rgba(220, 50, 50, 0.4),
-                0 0 160px rgba(220, 50, 50, 0.3),
-                inset 0 0 30px rgba(255, 150, 150, 0.5),
-                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
-            animation: none;
-        }
-
-        .label.red {
-            color: #dc3232;
+        @media (max-width: 900px) {
+            .container { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+            .icon { width: 110px; height: 110px; }
+            .icon svg { width: 48px; height: 48px; }
+            .label { font-size: 14px; }
+            .container > :nth-child(9) { grid-column: auto; }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Row 1 -->
         <a href="https://play.eventday.dk" class="icon-link">
-            <div class="icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 5v14l11-7z"/>
-                </svg>
+            <div class="icon c-orange">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </div>
-            <span class="label">TeamPlay</span>
+            <span class="label l-orange">TeamPlay</span>
         </a>
 
         <a href="teamtaste.html" class="icon-link">
-            <div class="icon gold">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/>
-                </svg>
+            <div class="icon c-gold">
+                <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
             </div>
-            <span class="label gold">TeamTaste</span>
+            <span class="label l-gold">TeamTaste</span>
         </a>
 
         <a href="https://track.eventday.dk" class="icon-link">
-            <div class="icon green">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
+            <div class="icon c-lightblue">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
             </div>
-            <span class="label green">TeamTrack</span>
+            <span class="label l-lightblue">TeamTrack</span>
         </a>
 
         <a href="teamconnect.html" class="icon-link">
-            <div class="icon red">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                </svg>
+            <div class="icon c-purple">
+                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             </div>
-            <span class="label red">TeamConnect</span>
+            <span class="label l-purple">TeamConnect</span>
+        </a>
+
+        <!-- Row 2 -->
+        <a href="#" class="icon-link">
+            <div class="icon c-blue">
+                <svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
+            </div>
+            <span class="label l-blue">TeamPlazer</span>
+        </a>
+
+        <a href="#" class="icon-link">
+            <div class="icon c-black">
+                <svg viewBox="0 0 24 24"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>
+            </div>
+            <span class="label l-black">TeamRace</span>
+        </a>
+
+        <a href="#" class="icon-link">
+            <div class="icon c-darkgreen">
+                <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H4V4h16v16zm-8-2l4-8H8z"/></svg>
+            </div>
+            <span class="label l-darkgreen">TeamBox</span>
+        </a>
+
+        <a href="#" class="icon-link">
+            <div class="icon c-lightgreen">
+                <svg viewBox="0 0 24 24"><path d="M6.05 4.14l-.39-.39c-.39-.39-1.02-.39-1.41 0l-.01.01c-.39.39-.39 1.02 0 1.41l.39.39c.39.39 1.01.39 1.4 0l.01-.01c.39-.38.39-1.02 0-1.41zM3.01 10.5H1.99c-.55 0-1.01.45-1.01 1s.46 1 1.01 1h1.02c.55 0 .99-.45.99-1s-.44-1-.99-1zm9-9.95C11.45.05 11 .5 11 1.05v1.02c0 .55.45.99 1 .99s1-.44 1-.99V1.05c0-.56-.45-1.01-1-1.01zm7.36 3.56l.01-.01c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0l-.39.39c-.39.39-.39 1.02 0 1.41.39.38 1.02.38 1.41 0l.38-.38zM17.95 4.14c.39.39 1.02.39 1.41 0l.39-.39c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0l-.39.39c-.39.39-.39 1.02 0 1.41zM12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-1 4h2v2h-2zm-7-8H2v2h2z"/></svg>
+            </div>
+            <span class="label l-lightgreen">TeamRobin</span>
+        </a>
+
+        <!-- Row 3 (centered) -->
+        <a href="#" class="icon-link">
+            <div class="icon c-red">
+                <svg viewBox="0 0 24 24"><path d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm1 13h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            </div>
+            <span class="label l-red">TeamSegway</span>
         </a>
     </div>
 </body>
