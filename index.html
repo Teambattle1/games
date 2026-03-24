@@ -223,6 +223,56 @@
         .label.green {
             color: #22c55e;
         }
+
+        /* Red - TeamConnect */
+        .icon.red {
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.9) 0%, rgba(220, 50, 50, 0.7) 50%, rgba(180, 30, 30, 0.8) 100%);
+            box-shadow:
+                0 0 20px rgba(220, 50, 50, 0.6),
+                0 0 40px rgba(220, 50, 50, 0.4),
+                0 0 60px rgba(220, 50, 50, 0.3),
+                0 0 80px rgba(220, 50, 50, 0.2),
+                inset 0 0 30px rgba(255, 150, 150, 0.3),
+                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 150, 150, 0.5);
+            animation: pulse-red 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% {
+                box-shadow:
+                    0 0 20px rgba(220, 50, 50, 0.6),
+                    0 0 40px rgba(220, 50, 50, 0.4),
+                    0 0 60px rgba(220, 50, 50, 0.3),
+                    0 0 80px rgba(220, 50, 50, 0.2),
+                    inset 0 0 30px rgba(255, 150, 150, 0.3),
+                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                box-shadow:
+                    0 0 30px rgba(220, 50, 50, 0.8),
+                    0 0 60px rgba(220, 50, 50, 0.5),
+                    0 0 90px rgba(220, 50, 50, 0.4),
+                    0 0 120px rgba(220, 50, 50, 0.3),
+                    inset 0 0 30px rgba(255, 150, 150, 0.4),
+                    inset 0 -20px 40px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .icon-link:hover .icon.red {
+            box-shadow:
+                0 0 40px rgba(220, 50, 50, 0.9),
+                0 0 80px rgba(220, 50, 50, 0.6),
+                0 0 120px rgba(220, 50, 50, 0.4),
+                0 0 160px rgba(220, 50, 50, 0.3),
+                inset 0 0 30px rgba(255, 150, 150, 0.5),
+                inset 0 -20px 40px rgba(0, 0, 0, 0.2);
+            animation: none;
+        }
+
+        .label.red {
+            color: #dc3232;
+        }
     </style>
 </head>
 <body>
@@ -252,6 +302,15 @@
                 </svg>
             </div>
             <span class="label green">TeamTrack</span>
+        </a>
+
+        <a href="teamconnect.html" class="icon-link">
+            <div class="icon red">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                </svg>
+            </div>
+            <span class="label red">TeamConnect</span>
         </a>
     </div>
 </body>
