@@ -306,8 +306,8 @@
                         <span class="playlist-count">${total}</span>
                         <span class="playlist-cached ${badgeClass}">${badgeText}</span>
                         <span style="display:flex;gap:2px;margin-left:6px;">
-                            <button class="icon-btn" onclick="event.stopPropagation();renamePlaylist('${pl.id}')" title="Rename" style="background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:13px;padding:2px 4px;">&#9998;</button>
-                            <button class="icon-btn" onclick="event.stopPropagation();deletePlaylist('${pl.id}')" title="Delete" style="background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:13px;padding:2px 4px;">&#10005;</button>
+                            <button onclick="event.stopPropagation();renamePlaylist('${pl.id}')" title="Rename" style="background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:13px;padding:2px 4px;">&#9998;</button>
+                            <button onclick="event.stopPropagation();deletePlaylist('${pl.id}')" title="Delete" style="background:none;border:none;color:rgba(220,50,50,0.5);cursor:pointer;font-size:13px;padding:2px 4px;">&#10005;</button>
                         </span>
                     </div>`;
             }).join('');
@@ -327,13 +327,18 @@
             container.innerHTML = list.map((track, i) => {
                 const playing = (currentTrackIndex === i && isPlaying) ? 'playing' : '';
                 const isCached = cachedTrackIds.has(track.id);
+                const isFirst = i === 0, isLast = i === list.length - 1;
                 return `
                     <div class="track-item ${playing}">
                         <span class="track-num">${i + 1}</span>
                         <button class="track-play-btn" onclick="playTrackAt(${i})">${currentTrackIndex === i && isPlaying ? '&#10074;&#10074;' : '&#9654;'}</button>
                         <span class="track-title">${esc(track.title)}</span>
                         <span class="track-cache-icon ${isCached ? 'cached' : 'not-cached'}">${isCached ? '&#128190;' : '&#9729;'}</span>
-                        <button onclick="deleteTrack('${track.id}', event)" title="Delete" style="background:none;border:none;color:rgba(255,255,255,0.2);cursor:pointer;font-size:13px;padding:2px 4px;margin-left:4px;">&#10005;</button>
+                        <span style="display:flex;gap:1px;margin-left:4px;">
+                            <button onclick="moveTrack(${i},-1)" title="Move up" ${isFirst ? 'disabled' : ''} style="background:none;border:none;color:${isFirst ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.35)'};cursor:${isFirst ? 'default' : 'pointer'};font-size:12px;padding:2px 3px;">&#9650;</button>
+                            <button onclick="moveTrack(${i},1)" title="Move down" ${isLast ? 'disabled' : ''} style="background:none;border:none;color:${isLast ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.35)'};cursor:${isLast ? 'default' : 'pointer'};font-size:12px;padding:2px 3px;">&#9660;</button>
+                            <button onclick="deleteTrack('${track.id}', event)" title="Delete" style="background:none;border:none;color:rgba(220,50,50,0.5);cursor:pointer;font-size:13px;padding:2px 4px;">&#10005;</button>
+                        </span>
                     </div>`;
             }).join('');
             updateSyncStatus();
@@ -606,6 +611,35 @@
                 renderPlaylists();
                 renderTracks();
             } catch (err) { alert('Failed to delete'); }
+        }
+
+        // ========== MOVE TRACK ==========
+        async function moveTrack(index, direction) {
+            const list = allTracks[activePlaylistId];
+            if (!list) return;
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= list.length) return;
+
+            // Swap in local array
+            [list[index], list[newIndex]] = [list[newIndex], list[index]];
+
+            // Update currentTrackIndex if affected
+            if (currentTrackIndex === index) currentTrackIndex = newIndex;
+            else if (currentTrackIndex === newIndex) currentTrackIndex = index;
+
+            renderTracks();
+
+            // Persist sort_order to Supabase
+            try {
+                const updates = list.map((t, i) =>
+                    fetch(`${SUPABASE_URL}/rest/v1/music_tracks?id=eq.${t.id}`, {
+                        method: 'PATCH',
+                        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ sort_order: i })
+                    })
+                );
+                await Promise.all(updates);
+            } catch (err) { console.error('Failed to persist order:', err); }
         }
 
         // ========== DELETE TRACK ==========
