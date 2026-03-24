@@ -30,9 +30,9 @@
         .playlist-cached.full { background: rgba(34,197,94,0.2); color: #22c55e; }
         .playlist-cached.partial { background: rgba(255,165,0,0.2); color: #ffa500; }
         .playlist-cached.none { display: none; }
-        .playlist-default-btn { background: none; border: none; cursor: pointer; font-size: 18px; padding: 2px 4px; transition: all 0.2s; opacity: 0.25; }
-        .playlist-default-btn:hover { opacity: 0.7; }
-        .playlist-default-btn.is-default { opacity: 1; }
+        .playlist-default-btn { background: none; border: none; cursor: pointer; font-size: 20px; padding: 2px 6px; transition: all 0.2s; color: rgba(255,255,255,0.2); margin-right: 6px; }
+        .playlist-default-btn:hover { color: rgba(255,200,50,0.7); }
+        .playlist-default-btn.is-default { color: #ffc832; text-shadow: 0 0 8px rgba(255,200,50,0.5); }
 
         /* Buttons */
         .btn { background: rgba(34,197,94,0.2); border: 1px solid rgba(34,197,94,0.5); color: #22c55e; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: all 0.2s; white-space: nowrap; }
@@ -122,7 +122,10 @@
         <div class="sidebar">
             <div class="sidebar-header">
                 <h3>Playlists</h3>
-                <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;">From Supabase &bull; TeamPlay</div>
+                <div style="display:flex;gap:8px;margin-top:10px;">
+                    <input type="text" class="create-input" id="newPlaylistName" placeholder="New playlist..." maxlength="50" style="flex:1;background:rgba(255,255,255,0.1);border:1px solid rgba(34,197,94,0.4);border-radius:6px;color:#fff;padding:8px 12px;font-size:13px;outline:none;">
+                    <button class="btn" onclick="createPlaylist()">+ Add</button>
+                </div>
             </div>
             <div class="playlist-list" id="playlistList">
                 <div class="empty-state" style="padding:30px;"><div>Loading playlists...</div></div>
@@ -134,6 +137,10 @@
                 <h3 id="contentTitle">Select a playlist</h3>
                 <span class="sync-status" id="syncStatus"></span>
                 <div style="flex:1;"></div>
+                <button class="btn" id="uploadBtn" onclick="document.getElementById('fileInput').click()" disabled>
+                    &#128190; Upload MP3
+                </button>
+                <input type="file" id="fileInput" accept=".mp3,audio/mpeg" multiple onchange="handleFileUpload(event)" style="display:none;">
                 <button class="btn sync" id="syncBtn" onclick="syncToDevice()" disabled>
                     &#128229; Sync to Device
                 </button>
@@ -296,8 +303,12 @@
                     <div class="playlist-item ${active}" onclick="selectPlaylist('${pl.id}')">
                         <button class="playlist-default-btn ${isDef ? 'is-default' : ''}" onclick="setDefaultPlaylist('${pl.id}', event)" title="${isDef ? 'Remove as default' : 'Set as default'}">&#9733;</button>
                         <span class="playlist-name">${esc(pl.name)}</span>
-                        <span class="playlist-count">${total} tracks</span>
+                        <span class="playlist-count">${total}</span>
                         <span class="playlist-cached ${badgeClass}">${badgeText}</span>
+                        <span style="display:flex;gap:2px;margin-left:6px;">
+                            <button class="icon-btn" onclick="event.stopPropagation();renamePlaylist('${pl.id}')" title="Rename" style="background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:13px;padding:2px 4px;">&#9998;</button>
+                            <button class="icon-btn" onclick="event.stopPropagation();deletePlaylist('${pl.id}')" title="Delete" style="background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:13px;padding:2px 4px;">&#10005;</button>
+                        </span>
                     </div>`;
             }).join('');
         }
@@ -322,6 +333,7 @@
                         <button class="track-play-btn" onclick="playTrackAt(${i})">${currentTrackIndex === i && isPlaying ? '&#10074;&#10074;' : '&#9654;'}</button>
                         <span class="track-title">${esc(track.title)}</span>
                         <span class="track-cache-icon ${isCached ? 'cached' : 'not-cached'}">${isCached ? '&#128190;' : '&#9729;'}</span>
+                        <button onclick="deleteTrack('${track.id}', event)" title="Delete" style="background:none;border:none;color:rgba(255,255,255,0.2);cursor:pointer;font-size:13px;padding:2px 4px;margin-left:4px;">&#10005;</button>
                     </div>`;
             }).join('');
             updateSyncStatus();
@@ -359,6 +371,7 @@
             const pl = playlists.find(p => p.id === id);
             document.getElementById('contentTitle').textContent = pl ? pl.name : 'Tracks';
             document.getElementById('syncBtn').disabled = false;
+            document.getElementById('uploadBtn').disabled = false;
             renderPlaylists();
             renderTracks();
         }
@@ -525,6 +538,144 @@
                 }
             }
         }
+
+        // ========== CREATE PLAYLIST ==========
+        async function createPlaylist() {
+            const input = document.getElementById('newPlaylistName');
+            const name = input.value.trim();
+            if (!name) return;
+            try {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/music_playlists`, {
+                    method: 'POST',
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+                    body: JSON.stringify({ name })
+                });
+                const [pl] = await res.json();
+                if (pl) {
+                    playlists.unshift(pl);
+                    allTracks[pl.id] = [];
+                    input.value = '';
+                    renderPlaylists();
+                    selectPlaylist(pl.id);
+                }
+            } catch (err) { alert('Failed to create playlist'); }
+        }
+
+        // ========== RENAME PLAYLIST ==========
+        async function renamePlaylist(id, evt) {
+            if (evt) evt.stopPropagation();
+            const pl = playlists.find(p => p.id === id);
+            if (!pl) return;
+            const newName = prompt('Rename playlist:', pl.name);
+            if (!newName || !newName.trim()) return;
+            try {
+                await fetch(`${SUPABASE_URL}/rest/v1/music_playlists?id=eq.${id}`, {
+                    method: 'PATCH',
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: newName.trim(), updated_at: new Date().toISOString() })
+                });
+                pl.name = newName.trim();
+                renderPlaylists();
+                if (activePlaylistId === id) document.getElementById('contentTitle').textContent = pl.name;
+            } catch (err) { alert('Failed to rename'); }
+        }
+
+        // ========== DELETE PLAYLIST ==========
+        async function deletePlaylist(id, evt) {
+            if (evt) evt.stopPropagation();
+            if (!confirm('Delete this playlist and all its tracks?')) return;
+            try {
+                // Delete tracks first
+                await fetch(`${SUPABASE_URL}/rest/v1/music_tracks?playlist_id=eq.${id}`, {
+                    method: 'DELETE',
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+                });
+                await fetch(`${SUPABASE_URL}/rest/v1/music_playlists?id=eq.${id}`, {
+                    method: 'DELETE',
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+                });
+                playlists = playlists.filter(p => p.id !== id);
+                delete allTracks[id];
+                if (activePlaylistId === id) {
+                    activePlaylistId = null;
+                    document.getElementById('contentTitle').textContent = 'Select a playlist';
+                    document.getElementById('uploadBtn').disabled = true;
+                    document.getElementById('syncBtn').disabled = true;
+                    stopPlayback();
+                }
+                renderPlaylists();
+                renderTracks();
+            } catch (err) { alert('Failed to delete'); }
+        }
+
+        // ========== DELETE TRACK ==========
+        async function deleteTrack(trackId, evt) {
+            if (evt) evt.stopPropagation();
+            if (!confirm('Delete this track?')) return;
+            const list = allTracks[activePlaylistId] || [];
+            const idx = list.findIndex(t => t.id === trackId);
+            try {
+                await fetch(`${SUPABASE_URL}/rest/v1/music_tracks?id=eq.${trackId}`, {
+                    method: 'DELETE',
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+                });
+                list.splice(idx, 1);
+                if (currentTrackIndex === idx) stopPlayback();
+                else if (currentTrackIndex > idx) currentTrackIndex--;
+                renderPlaylists();
+                renderTracks();
+            } catch (err) { alert('Failed to delete track'); }
+        }
+
+        // ========== UPLOAD MP3 ==========
+        async function handleFileUpload(event) {
+            const files = Array.from(event.target.files);
+            if (!activePlaylistId || files.length === 0) return;
+            const list = allTracks[activePlaylistId] || [];
+            const btn = document.getElementById('uploadBtn');
+            btn.disabled = true;
+            btn.textContent = '⟳ Uploading...';
+
+            let uploaded = 0;
+            for (const file of files) {
+                if (!file.type.includes('audio') && !file.name.toLowerCase().endsWith('.mp3')) continue;
+                const sanitized = file.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 100);
+                const filePath = `${activePlaylistId}/${Date.now()}-${sanitized}`;
+                const title = file.name.replace(/\.mp3$/i, '').replace(/[_-]/g, ' ').replace(/\s+/g, ' ').trim();
+
+                try {
+                    // Upload to storage
+                    await fetch(`${SUPABASE_URL}/storage/v1/object/${STORAGE_BUCKET}/${filePath}`, {
+                        method: 'POST',
+                        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': file.type || 'audio/mpeg', 'x-upsert': 'true' },
+                        body: file
+                    });
+                    // Create track record
+                    const sortOrder = list.length + uploaded;
+                    const res = await fetch(`${SUPABASE_URL}/rest/v1/music_tracks`, {
+                        method: 'POST',
+                        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+                        body: JSON.stringify({ playlist_id: activePlaylistId, title, file_path: filePath, mime_type: 'audio/mpeg', file_size: file.size, sort_order: sortOrder })
+                    });
+                    const [track] = await res.json();
+                    if (track) list.push(track);
+                    uploaded++;
+                    btn.textContent = `⟳ ${uploaded}/${files.length}`;
+                } catch (err) {
+                    console.error('Upload failed:', file.name, err);
+                }
+            }
+
+            btn.disabled = false;
+            btn.textContent = uploaded > 0 ? `✓ ${uploaded} uploaded` : '⚠ Failed';
+            setTimeout(() => { btn.innerHTML = '&#128190; Upload MP3'; }, 2000);
+            event.target.value = '';
+            renderPlaylists();
+            renderTracks();
+        }
+
+        // Enter key for create playlist
+        document.getElementById('newPlaylistName').addEventListener('keydown', e => { if (e.key === 'Enter') createPlaylist(); });
 
         // ========== HELPERS ==========
         function fmt(s) { if (!s || isNaN(s)) return '0:00'; const m = Math.floor(s/60); const sec = Math.floor(s%60); return m+':'+(sec<10?'0':'')+sec; }
