@@ -55,6 +55,23 @@
             text-decoration: none;
             transition: transform 0.3s ease;
             cursor: pointer;
+            position: relative;
+        }
+
+        .beta-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.4);
+            z-index: 2;
         }
         .menu-item:hover { transform: scale(1.1); }
 
@@ -129,6 +146,7 @@
     <h1 class="title">TeamTaste</h1>
     <div class="menu-row">
         <a href="#" class="menu-item">
+            <span class="beta-badge">Beta</span>
             <div class="menu-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
@@ -137,6 +155,7 @@
             <span class="menu-label">Game</span>
         </a>
         <a href="#" class="menu-item">
+            <span class="beta-badge">Beta</span>
             <div class="menu-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM4 6h9v5H4zm10 0h6v5h-6zm10 6v5H4v-5h16z"/>
@@ -145,12 +164,21 @@
             <span class="menu-label">Infoscreen</span>
         </a>
         <a href="#" class="menu-item">
+            <span class="beta-badge">Beta</span>
             <div class="menu-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M7.5 21H2V9h5.5v12zm7.25-18h-5.5v18h5.5V3zM22 11h-5.5v10H22V11z"/>
                 </svg>
             </div>
             <span class="menu-label">Ranking</span>
+        </a>
+        <a href="music-taste.html" class="menu-item">
+            <div class="menu-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+            </div>
+            <span class="menu-label">Music</span>
         </a>
     </div>
 </body>
