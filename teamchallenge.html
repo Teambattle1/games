@@ -58,6 +58,28 @@
             opacity: 0.5;
         }
 
+        .crew-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 25px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+        .crew-btn:hover {
+            color: #dc328c;
+            border-color: rgba(220, 50, 140, 0.5);
+            background: rgba(220, 50, 140, 0.1);
+            box-shadow: 0 0 15px rgba(220, 50, 140, 0.2);
+        }
+
         @media (max-width: 768px) {
             .title { font-size: 28px; }
             .subtitle { font-size: 16px; }
@@ -70,5 +92,6 @@
     <h1 class="title">Team<span class="accent">Challenge</span></h1>
     <p class="subtitle">Competition</p>
     <p class="coming-soon">Coming Soon</p>
+    <a href="https://ccc.eventday.dk/teamchallenge" class="crew-btn">CrewCenter</a>
 </body>
 </html>
