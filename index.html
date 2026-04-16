@@ -329,5 +329,35 @@
             <span class="subtitle">Racing</span>
         </a>
     </div>
+
+    <script>
+        (function () {
+            function enterFullscreen() {
+                var el = document.documentElement;
+                var req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+                if (req) {
+                    try { req.call(el); } catch (e) {}
+                }
+            }
+
+            function isFullscreen() {
+                return !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+            }
+
+            // Attempt immediately (works in some embedded/kiosk contexts)
+            enterFullscreen();
+
+            // Fallback: trigger on first user gesture
+            function onFirstGesture() {
+                if (!isFullscreen()) enterFullscreen();
+                document.removeEventListener('click', onFirstGesture, true);
+                document.removeEventListener('keydown', onFirstGesture, true);
+                document.removeEventListener('touchstart', onFirstGesture, true);
+            }
+            document.addEventListener('click', onFirstGesture, true);
+            document.addEventListener('keydown', onFirstGesture, true);
+            document.addEventListener('touchstart', onFirstGesture, true);
+        })();
+    </script>
 </body>
 </html>

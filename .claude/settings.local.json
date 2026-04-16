@@ -14,7 +14,11 @@
       "Bash(sed -i 's/34,197,94/218,165,32/g' music-taste.html)",
       "Bash(sed -i 's/#22c55e/#daa520/g' music-taste.html)",
       "Bash(sed -i 's/teamconnect\\\\.html/teamtaste.html/g' music-taste.html)",
-      "Bash(sed -i 's/tc_default_playlist/tt_default_playlist/g' music-taste.html)"
+      "Bash(sed -i 's/tc_default_playlist/tt_default_playlist/g' music-taste.html)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(npx netlify-cli:*)",
+      "Bash(npx netlify:*)"
     ]
   }
 }
