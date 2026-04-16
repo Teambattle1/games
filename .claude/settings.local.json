@@ -18,7 +18,9 @@
       "Bash(git pull:*)",
       "Bash(git stash:*)",
       "Bash(npx netlify-cli:*)",
-      "Bash(npx netlify:*)"
+      "Bash(npx netlify:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh --version)"
     ]
   }
 }
