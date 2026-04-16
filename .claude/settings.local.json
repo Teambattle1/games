@@ -20,7 +20,8 @@
       "Bash(npx netlify-cli:*)",
       "Bash(npx netlify:*)",
       "Bash(gh auth:*)",
-      "Bash(gh --version)"
+      "Bash(gh --version)",
+      "Bash(grep -l \"music.html\\\\|music-taste.html\" C:/Users/ThomasSunke/Github/GAMES/*.html)"
     ]
   }
 }

@@ -113,10 +113,21 @@
 </head>
 <body>
     <div class="header">
-        <a href="teamconnect.html" class="back-link">&larr; Back</a>
+        <a href="teamconnect.html" class="back-link" id="musicBackLink">&larr; Back</a>
         <span class="page-title">&#9835; Music</span>
         <div class="music-bars hidden" id="musicBarsHeader" style="margin-left:12px;"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
     </div>
+    <script>
+        (function () {
+            var allowed = ['teamchallenge','teamconnect','teamtaste','teamlazer','teamrobin','teamsegway','teambox','teamcontrol','teamaction','teamconstruct','teamrace','index','zones'];
+            var params = new URLSearchParams(window.location.search);
+            var from = (params.get('from') || '').replace(/\.html$/i, '').toLowerCase();
+            if (allowed.indexOf(from) !== -1) {
+                var link = document.getElementById('musicBackLink');
+                if (link) link.setAttribute('href', from + '.html');
+            }
+        })();
+    </script>
 
     <div class="main-layout">
         <div class="sidebar">

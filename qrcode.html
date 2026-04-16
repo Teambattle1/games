@@ -555,6 +555,211 @@
             border-color: rgba(255, 85, 119, 0.5);
         }
 
+        /* Card selection (for print) */
+        .card-check {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 3;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-check input { position: absolute; opacity: 0; pointer-events: none; }
+        .card-check .checkmark {
+            width: 22px;
+            height: 22px;
+            border: 1.5px solid rgba(255,255,255,0.5);
+            border-radius: 5px;
+            background: rgba(0,0,0,0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: transparent;
+            transition: all 0.15s ease;
+        }
+        .card-check:hover .checkmark { border-color: rgba(255, 102, 0, 0.9); }
+        .card-check input:checked ~ .checkmark {
+            background: #ff6600;
+            border-color: #ff6600;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+        }
+        .card-check input:checked ~ .checkmark::after { content: '✓'; }
+        .card.selected {
+            border-color: rgba(255, 102, 0, 0.7) !important;
+            box-shadow: 0 0 15px rgba(255, 102, 0, 0.3) !important;
+        }
+
+        /* Print setup modal */
+        .print-setup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 10002;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .print-setup.show { display: flex; animation: fade-in 0.25s ease; }
+        .print-setup-box {
+            max-width: 440px;
+            width: 100%;
+            background: rgba(15,15,15,0.98);
+            border: 1px solid rgba(255, 102, 0, 0.4);
+            border-radius: 14px;
+            padding: 26px;
+            box-shadow: 0 0 40px rgba(255, 102, 0, 0.2);
+        }
+        .print-setup-box h3 {
+            color: #ff6600;
+            font-size: 16px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .print-setup-box .sub {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 18px;
+        }
+        .check-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            user-select: none;
+        }
+        .check-row input {
+            width: 16px;
+            height: 16px;
+            accent-color: #ff6600;
+            cursor: pointer;
+        }
+
+        /* Print view (hidden on screen, shown on print) */
+        .print-view { display: none; }
+
+        @media print {
+            html.skip-intro .intro-overlay,
+            html:not(.skip-intro) .intro-overlay { display: none !important; }
+            body > *:not(.print-view) { display: none !important; }
+            .print-view { display: block !important; }
+            html, body {
+                background: #fff !important;
+                color: #000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            @page { size: A4; margin: 15mm; }
+            .print-header {
+                font-size: 22pt;
+                font-weight: bold;
+                text-align: center;
+                padding-bottom: 6mm;
+                border-bottom: 2px solid #ff6600;
+                margin-bottom: 8mm;
+                color: #000;
+                letter-spacing: 2pt;
+                text-transform: uppercase;
+            }
+            .print-header .sub {
+                font-size: 10pt;
+                font-weight: normal;
+                letter-spacing: 1pt;
+                color: #666;
+                margin-top: 2mm;
+                text-transform: none;
+            }
+            .print-page {
+                page-break-after: always;
+                display: grid;
+                gap: 8mm;
+            }
+            .print-page:last-child { page-break-after: auto; }
+            .print-page[data-count="1"] { grid-template-columns: 1fr; }
+            .print-page[data-count="2"] { grid-template-columns: 1fr; }
+            .print-page[data-count="4"] { grid-template-columns: 1fr 1fr; }
+            .print-page[data-count="6"] { grid-template-columns: 1fr 1fr; }
+            .print-page[data-count="9"] { grid-template-columns: 1fr 1fr 1fr; }
+            .print-cell {
+                text-align: center;
+                padding: 5mm;
+                border: 1pt solid #ccc;
+                border-radius: 3mm;
+                break-inside: avoid;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+            }
+            .print-cell.is-activity { border: 2pt solid #ff6600; }
+            .print-qr {
+                width: 100%;
+                max-width: 60mm;
+                aspect-ratio: 1;
+                padding: 2mm;
+                background: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .print-page[data-count="1"] .print-qr { max-width: 120mm; }
+            .print-page[data-count="2"] .print-qr { max-width: 90mm; }
+            .print-page[data-count="9"] .print-qr { max-width: 45mm; }
+            .print-qr img {
+                max-width: 100%;
+                max-height: 100%;
+                image-rendering: pixelated;
+                image-rendering: crisp-edges;
+            }
+            .print-name {
+                font-size: 12pt;
+                font-weight: bold;
+                margin-top: 3mm;
+                color: #000;
+            }
+            .print-type {
+                display: inline-block;
+                padding: 0.5mm 2mm;
+                background: #ff6600;
+                color: #fff;
+                font-size: 7pt;
+                letter-spacing: 1pt;
+                border-radius: 2mm;
+                margin-top: 2mm;
+                text-transform: uppercase;
+            }
+            .print-type.simple { background: #333; }
+            .print-desc {
+                font-size: 9pt;
+                color: #333;
+                margin-top: 2mm;
+                line-height: 1.4;
+                max-width: 100%;
+            }
+            .print-target {
+                font-size: 8pt;
+                color: #555;
+                margin-top: 2mm;
+                word-break: break-all;
+                font-family: 'Courier New', monospace;
+                max-width: 100%;
+            }
+            .print-page[data-count="9"] .print-name { font-size: 9pt; margin-top: 2mm; }
+            .print-page[data-count="9"] .print-desc,
+            .print-page[data-count="9"] .print-target,
+            .print-page[data-count="9"] .print-type { display: none; }
+            .print-page[data-count="6"] .print-target { display: none; }
+        }
+
         .empty {
             text-align: center;
             padding: 60px 20px;
