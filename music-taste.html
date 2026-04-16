@@ -71,25 +71,79 @@
         .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; color: rgba(255,255,255,0.3); font-size: 16px; gap: 12px; }
         .empty-state .icon { font-size: 48px; }
 
-        /* Player bar */
-        .player-bar { border-top: 1px solid rgba(218,165,32,0.3); padding: 16px 24px; display: flex; align-items: center; gap: 16px; background: rgba(218,165,32,0.05); }
-        .now-playing { width: 200px; overflow: hidden; }
-        .now-playing .title { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .now-playing .subtitle { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
-        .player-controls { display: flex; align-items: center; gap: 8px; }
-        .ctrl-btn { background: none; border: 2px solid rgba(218,165,32,0.5); color: #daa520; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        /* Bluetooth bar */
+        .bt-bar { display:flex; align-items:center; gap:10px; padding:10px 24px; border-bottom:1px solid rgba(218,165,32,0.15); background:rgba(218,165,32,0.04); flex-wrap:wrap; font-size:13px; }
+        .bt-status { display:flex; align-items:center; gap:8px; padding:6px 12px; border-radius:20px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); }
+        .bt-dot { width:10px; height:10px; border-radius:50%; background:#666; box-shadow:0 0 6px rgba(255,255,255,0.2); }
+        .bt-status.on .bt-dot { background:#daa520; box-shadow:0 0 8px rgba(218,165,32,0.8); animation: btPulse 2s ease-in-out infinite; }
+        .bt-status.off .bt-dot { background:#dc3232; box-shadow:0 0 6px rgba(220,50,50,0.6); }
+        .bt-status.unknown .bt-dot { background:#888; }
+        @keyframes btPulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+        .bt-label { color:rgba(255,255,255,0.7); }
+        .bt-device { color:#daa520; font-weight:600; max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .bt-btn { background:rgba(218,165,32,0.15); border:1px solid rgba(218,165,32,0.5); color:#daa520; padding:10px 16px; border-radius:24px; cursor:pointer; font-weight:bold; font-size:14px; display:inline-flex; align-items:center; gap:8px; min-height:44px; transition:all 0.2s; }
+        .bt-btn:hover, .bt-btn:active { background:rgba(218,165,32,0.3); box-shadow:0 0 10px rgba(218,165,32,0.4); }
+        .bt-btn .icon { font-size:18px; }
+
+        /* Player bar - TOUCH OPTIMIZED */
+        .player-bar { border-top: 1px solid rgba(218,165,32,0.3); padding: 14px 20px; display: flex; align-items: center; gap: 16px; background: rgba(218,165,32,0.05); flex-wrap: wrap; }
+        .now-playing { min-width: 180px; max-width: 260px; flex:1 1 180px; overflow: hidden; cursor:pointer; padding:4px; border-radius:8px; transition:background 0.2s; }
+        .now-playing:hover, .now-playing:active { background:rgba(218,165,32,0.08); }
+        .now-playing .title { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .now-playing .subtitle { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 3px; }
+        .now-playing .expand-hint { font-size:10px; color:rgba(218,165,32,0.5); margin-top:2px; letter-spacing:1px; }
+        .player-controls { display: flex; align-items: center; gap: 10px; }
+        .ctrl-btn { background: rgba(218,165,32,0.08); border: 2px solid rgba(218,165,32,0.5); color: #daa520; width: 56px; height: 56px; border-radius: 50%; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink:0; -webkit-tap-highlight-color: rgba(218,165,32,0.3); }
         .ctrl-btn:hover { background: rgba(218,165,32,0.2); border-color: #daa520; }
-        .ctrl-btn.main { width: 48px; height: 48px; font-size: 20px; border-width: 3px; }
-        .ctrl-btn.stop { border-color: rgba(220,50,50,0.5); color: #dc3232; }
+        .ctrl-btn:active { transform: scale(0.92); background: rgba(218,165,32,0.35); }
+        .ctrl-btn.main { width: 72px; height: 72px; font-size: 30px; border-width: 3px; background:rgba(218,165,32,0.15); }
+        .ctrl-btn.stop { border-color: rgba(220,50,50,0.5); color: #dc3232; background:rgba(220,50,50,0.08); }
         .ctrl-btn.stop:hover { background: rgba(220,50,50,0.2); border-color: #dc3232; }
-        .progress-section { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-        .progress-bar-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; cursor: pointer; }
-        .progress-bar { height: 100%; background: #daa520; border-radius: 3px; width: 0%; transition: width 0.1s linear; }
-        .progress-times { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.4); }
-        .volume-section { display: flex; align-items: center; gap: 8px; width: 140px; }
-        .volume-icon { color: rgba(255,255,255,0.5); font-size: 16px; cursor: pointer; }
-        .volume-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; outline: none; }
-        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #daa520; cursor: pointer; }
+        .ctrl-btn.stop:active { background: rgba(220,50,50,0.35); }
+        .progress-section { flex: 1 1 220px; display: flex; flex-direction: column; gap: 6px; min-width:180px; }
+        .progress-bar-container { width: 100%; height: 14px; background: rgba(255,255,255,0.12); border-radius: 7px; cursor: pointer; position:relative; padding: 4px 0; }
+        .progress-bar-container::before { content:''; position:absolute; top:0; left:0; right:0; bottom:0; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #daa520, #ffd454); border-radius: 7px; width: 0%; transition: width 0.1s linear; box-shadow: 0 0 8px rgba(218,165,32,0.5); }
+        .progress-times { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.5); font-variant-numeric: tabular-nums; }
+        .volume-section { display: flex; align-items: center; gap: 10px; width: 180px; }
+        .volume-icon { color: rgba(255,255,255,0.6); font-size: 22px; cursor: pointer; padding:6px; border-radius:50%; min-width:36px; text-align:center; }
+        .volume-icon:hover, .volume-icon:active { background:rgba(255,255,255,0.08); color:#fff; }
+        .volume-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 8px; background: rgba(255,255,255,0.15); border-radius: 4px; outline: none; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: #daa520; cursor: pointer; box-shadow: 0 0 8px rgba(218,165,32,0.5); border:2px solid #fff; }
+        .volume-slider::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: #daa520; cursor: pointer; border:2px solid #fff; }
+
+        /* Fullscreen "Now Playing" overlay */
+        .np-overlay { position:fixed; inset:0; background:linear-gradient(180deg, #1a1100 0%, #000 100%); z-index:1000; display:none; flex-direction:column; padding:24px; animation: npFadeIn 0.25s ease-out; }
+        .np-overlay.open { display:flex; }
+        @keyframes npFadeIn { from{opacity:0;} to{opacity:1;} }
+        .np-close { align-self:flex-end; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; width:56px; height:56px; border-radius:50%; font-size:28px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; -webkit-tap-highlight-color:rgba(255,255,255,0.2); }
+        .np-close:active { transform:scale(0.9); background:rgba(255,255,255,0.18); }
+        .np-info { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; text-align:center; padding:20px; }
+        .np-album-icon { font-size:120px; color:#daa520; text-shadow:0 0 40px rgba(218,165,32,0.6); animation: npSpin 4s linear infinite paused; }
+        .np-album-icon.playing { animation-play-state:running; }
+        @keyframes npSpin { to { transform:rotate(360deg); } }
+        .np-title { font-size:clamp(22px, 5vw, 36px); font-weight:700; color:#fff; max-width:90%; word-break:break-word; }
+        .np-subtitle { font-size:clamp(14px, 3vw, 20px); color:rgba(255,255,255,0.5); }
+        .np-bt-pill { display:inline-flex; align-items:center; gap:8px; padding:8px 16px; background:rgba(218,165,32,0.12); border:1px solid rgba(218,165,32,0.4); border-radius:20px; color:#daa520; font-size:14px; margin-top:8px; }
+        .np-progress-wrap { width:100%; max-width:600px; display:flex; flex-direction:column; gap:8px; }
+        .np-progress-bar-container { width:100%; height:18px; background:rgba(255,255,255,0.12); border-radius:9px; cursor:pointer; padding:5px 0; position:relative; }
+        .np-progress-bar { height:100%; background:linear-gradient(90deg, #daa520, #ffd454); border-radius:9px; width:0%; box-shadow:0 0 10px rgba(218,165,32,0.6); }
+        .np-times { display:flex; justify-content:space-between; font-size:14px; color:rgba(255,255,255,0.6); font-variant-numeric:tabular-nums; }
+        .np-controls { display:flex; align-items:center; justify-content:center; gap:20px; padding:20px 0 40px; flex-wrap:wrap; }
+        .np-btn { background:rgba(218,165,32,0.1); border:3px solid rgba(218,165,32,0.5); color:#daa520; width:90px; height:90px; border-radius:50%; cursor:pointer; font-size:36px; display:flex; align-items:center; justify-content:center; transition:all 0.15s; -webkit-tap-highlight-color:rgba(218,165,32,0.3); }
+        .np-btn:active { transform:scale(0.9); background:rgba(218,165,32,0.3); }
+        .np-btn.main { width:130px; height:130px; font-size:54px; border-width:4px; background:rgba(218,165,32,0.18); box-shadow:0 0 30px rgba(218,165,32,0.3); }
+        .np-btn.stop { border-color:rgba(220,50,50,0.5); color:#dc3232; background:rgba(220,50,50,0.1); }
+        .np-btn.stop:active { background:rgba(220,50,50,0.3); }
+        .np-volume-row { display:flex; align-items:center; gap:12px; width:100%; max-width:420px; margin:0 auto; }
+        .np-volume-row .volume-icon { font-size:28px; }
+        .np-volume-row .volume-slider { height:12px; }
+        .np-volume-row .volume-slider::-webkit-slider-thumb { width:32px; height:32px; }
+        @media (max-width: 480px) {
+            .np-btn { width:72px; height:72px; font-size:28px; }
+            .np-btn.main { width:100px; height:100px; font-size:42px; }
+            .np-controls { gap:14px; }
+        }
 
         .music-bars { display: flex; align-items: flex-end; gap: 2px; height: 16px; }
         .music-bars .bar { width: 3px; background: #daa520; border-radius: 1px; animation: musicBar 0.8s ease-in-out infinite alternate; }
@@ -106,8 +160,11 @@
         @media (max-width: 768px) {
             .main-layout { flex-direction: column; }
             .sidebar { width: 100%; max-height: 250px; border-right: none; border-bottom: 1px solid rgba(218,165,32,0.3); }
-            .now-playing { width: 120px; }
-            .volume-section { width: 100px; }
+            .now-playing { min-width: 120px; flex-basis:120px; }
+            .volume-section { width: 100%; order:5; }
+            .player-bar { gap:10px; padding:12px; }
+            .bt-bar { padding:8px 12px; gap:6px; }
+            .bt-device { max-width:160px; }
         }
     </style>
 </head>
@@ -116,6 +173,26 @@
         <a href="teamtaste.html" class="back-link">&larr; Back</a>
         <span class="page-title">&#9835; Music</span>
         <div class="music-bars hidden" id="musicBarsHeader" style="margin-left:12px;"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+    </div>
+
+    <!-- Bluetooth bar -->
+    <div class="bt-bar">
+        <div class="bt-status unknown" id="btStatus" title="Bluetooth availability">
+            <span class="bt-dot"></span>
+            <span class="bt-label" id="btStatusText">Checking Bluetooth&hellip;</span>
+        </div>
+        <div class="bt-status" id="btDeviceBox" style="background:rgba(218,165,32,0.06);">
+            <span style="font-size:16px;">&#127911;</span>
+            <span class="bt-label">Output:</span>
+            <span class="bt-device" id="btDeviceName">Unknown</span>
+        </div>
+        <div style="flex:1;"></div>
+        <button class="bt-btn" onclick="openBluetoothSettings()" title="Open phone Bluetooth settings">
+            <span class="icon">&#128246;</span> Open Bluetooth
+        </button>
+        <button class="bt-btn" onclick="detectAudioOutput()" title="Detect connected Bluetooth speaker/headphones" style="background:rgba(0,150,255,0.12); border-color:rgba(0,150,255,0.5); color:#0096ff;">
+            <span class="icon">&#128269;</span> Detect Device
+        </button>
     </div>
 
     <div class="main-layout">
@@ -156,15 +233,16 @@
     </div>
 
     <div class="player-bar">
-        <div class="now-playing">
+        <div class="now-playing" onclick="openNowPlaying()" title="Tap to expand">
             <div class="title" id="nowPlayingTitle">No track selected</div>
             <div class="subtitle" id="nowPlayingPlaylist">-</div>
+            <div class="expand-hint">&#8607; TAP TO EXPAND</div>
         </div>
         <div class="player-controls">
-            <button class="ctrl-btn" onclick="prevTrack()">&#9664;</button>
-            <button class="ctrl-btn main" onclick="togglePlayPause()" id="playBtn">&#9654;</button>
-            <button class="ctrl-btn stop" onclick="stopPlayback()">&#9632;</button>
-            <button class="ctrl-btn" onclick="nextTrack()">&#9654;</button>
+            <button class="ctrl-btn" onclick="prevTrack()" title="Previous">&#9198;</button>
+            <button class="ctrl-btn main" onclick="togglePlayPause()" id="playBtn" title="Play/Pause">&#9654;</button>
+            <button class="ctrl-btn stop" onclick="stopPlayback()" title="Stop">&#9632;</button>
+            <button class="ctrl-btn" onclick="nextTrack()" title="Next">&#9197;</button>
         </div>
         <div class="progress-section">
             <div class="progress-bar-container" onclick="seekTo(event)"><div class="progress-bar" id="progressBar"></div></div>
@@ -173,6 +251,31 @@
         <div class="volume-section">
             <span class="volume-icon" onclick="toggleMute()">&#128266;</span>
             <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80" oninput="setVolume(this.value)">
+        </div>
+    </div>
+
+    <!-- Fullscreen "Now Playing" overlay for touch devices -->
+    <div class="np-overlay" id="npOverlay">
+        <button class="np-close" onclick="closeNowPlaying()" aria-label="Close">&times;</button>
+        <div class="np-info">
+            <div class="np-album-icon" id="npAlbumIcon">&#9835;</div>
+            <div class="np-title" id="npTitle">No track selected</div>
+            <div class="np-subtitle" id="npSubtitle">-</div>
+            <div class="np-bt-pill" id="npBtPill"><span>&#127911;</span> <span id="npBtDevice">Unknown output</span></div>
+            <div class="np-progress-wrap">
+                <div class="np-progress-bar-container" onclick="seekTo(event)"><div class="np-progress-bar" id="npProgressBar"></div></div>
+                <div class="np-times"><span id="npCurrentTime">0:00</span><span id="npTotalTime">0:00</span></div>
+            </div>
+        </div>
+        <div class="np-controls">
+            <button class="np-btn" onclick="prevTrack()" aria-label="Previous">&#9198;</button>
+            <button class="np-btn main" onclick="togglePlayPause()" id="npPlayBtn" aria-label="Play/Pause">&#9654;</button>
+            <button class="np-btn stop" onclick="stopPlayback()" aria-label="Stop">&#9632;</button>
+            <button class="np-btn" onclick="nextTrack()" aria-label="Next">&#9197;</button>
+        </div>
+        <div class="np-volume-row">
+            <span class="volume-icon" onclick="toggleMute()">&#128266;</span>
+            <input type="range" class="volume-slider" id="npVolumeSlider" min="0" max="100" value="80" oninput="setVolume(this.value); document.getElementById('volumeSlider').value=this.value;">
         </div>
     </div>
 
@@ -520,29 +623,147 @@
 
         audio.addEventListener('timeupdate', () => {
             if (!audio.duration) return;
-            document.getElementById('progressBar').style.width = ((audio.currentTime / audio.duration) * 100) + '%';
-            document.getElementById('currentTime').textContent = fmt(audio.currentTime);
-            document.getElementById('totalTime').textContent = fmt(audio.duration);
+            const pct = ((audio.currentTime / audio.duration) * 100) + '%';
+            const cur = fmt(audio.currentTime), tot = fmt(audio.duration);
+            document.getElementById('progressBar').style.width = pct;
+            document.getElementById('currentTime').textContent = cur;
+            document.getElementById('totalTime').textContent = tot;
+            const npBar = document.getElementById('npProgressBar');
+            if (npBar) npBar.style.width = pct;
+            const npCur = document.getElementById('npCurrentTime');
+            if (npCur) npCur.textContent = cur;
+            const npTot = document.getElementById('npTotalTime');
+            if (npTot) npTot.textContent = tot;
         });
 
         function updatePlayerUI() {
-            document.getElementById('playBtn').innerHTML = isPlaying ? '&#10074;&#10074;' : '&#9654;';
+            const playIcon = isPlaying ? '&#10074;&#10074;' : '&#9654;';
+            document.getElementById('playBtn').innerHTML = playIcon;
+            const npPlay = document.getElementById('npPlayBtn');
+            if (npPlay) npPlay.innerHTML = playIcon;
+            const npIcon = document.getElementById('npAlbumIcon');
+            if (npIcon) npIcon.classList.toggle('playing', isPlaying);
             const bars = document.getElementById('musicBarsHeader');
+            const list = allTracks[activePlaylistId] || [];
+            const track = list[currentTrackIndex];
+            const pl = playlists.find(p => p.id === activePlaylistId);
             if (isPlaying) {
                 bars.classList.remove('hidden');
-                const list = allTracks[activePlaylistId] || [];
-                const track = list[currentTrackIndex];
-                const pl = playlists.find(p => p.id === activePlaylistId);
-                document.getElementById('nowPlayingTitle').textContent = track ? track.title : 'Unknown';
-                document.getElementById('nowPlayingPlaylist').textContent = pl ? pl.name + ' • Track ' + (currentTrackIndex + 1) + '/' + list.length : '-';
+                const title = track ? track.title : 'Unknown';
+                const subtitle = pl ? pl.name + ' • Track ' + (currentTrackIndex + 1) + '/' + list.length : '-';
+                document.getElementById('nowPlayingTitle').textContent = title;
+                document.getElementById('nowPlayingPlaylist').textContent = subtitle;
+                document.getElementById('npTitle').textContent = title;
+                document.getElementById('npSubtitle').textContent = subtitle;
             } else {
                 bars.classList.add('hidden');
                 if (currentTrackIndex < 0) {
                     document.getElementById('nowPlayingTitle').textContent = 'No track selected';
                     document.getElementById('nowPlayingPlaylist').textContent = '-';
+                    document.getElementById('npTitle').textContent = 'No track selected';
+                    document.getElementById('npSubtitle').textContent = '-';
+                } else if (track) {
+                    document.getElementById('npTitle').textContent = track.title;
                 }
             }
         }
+
+        // ========== BLUETOOTH / AUDIO OUTPUT ==========
+        async function checkBluetoothStatus() {
+            const box = document.getElementById('btStatus');
+            const txt = document.getElementById('btStatusText');
+            box.classList.remove('on','off','unknown');
+            try {
+                if (navigator.bluetooth && typeof navigator.bluetooth.getAvailability === 'function') {
+                    const available = await navigator.bluetooth.getAvailability();
+                    if (available) { box.classList.add('on'); txt.textContent = 'Bluetooth: ON'; }
+                    else { box.classList.add('off'); txt.textContent = 'Bluetooth: OFF'; }
+                } else {
+                    box.classList.add('unknown');
+                    txt.textContent = 'BT status: check device';
+                }
+            } catch (e) {
+                box.classList.add('unknown');
+                txt.textContent = 'BT status: unavailable';
+            }
+        }
+
+        function openBluetoothSettings() {
+            const ua = navigator.userAgent.toLowerCase();
+            const isAndroid = /android/.test(ua);
+            const isIOS = /iphone|ipad|ipod/.test(ua) || (ua.includes('mac') && 'ontouchend' in document);
+            if (isAndroid) {
+                window.location.href = 'intent://settings#Intent;action=android.settings.BLUETOOTH_SETTINGS;end';
+                setTimeout(() => {
+                    if (!document.hidden) alert('Open phone Settings → Connected devices → Bluetooth manually.');
+                }, 1500);
+            } else if (isIOS) {
+                const a = document.createElement('a');
+                a.href = 'App-Prefs:root=Bluetooth';
+                a.rel = 'noopener';
+                a.click();
+                setTimeout(() => {
+                    if (!document.hidden) alert('iOS: Open Settings app → Bluetooth manually.\n(Direct links are blocked by Safari.)');
+                }, 1200);
+            } else {
+                alert('Open your system Bluetooth settings and pair a speaker/headphones, then tap "Detect Device".');
+            }
+        }
+
+        async function detectAudioOutput() {
+            const nameEl = document.getElementById('btDeviceName');
+            const npNameEl = document.getElementById('npBtDevice');
+            try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+                    nameEl.textContent = 'Not supported'; npNameEl.textContent = 'Not supported'; return;
+                }
+                let stream = null;
+                try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+                catch (e) { /* permission denied - still try enumerate */ }
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                if (stream) stream.getTracks().forEach(t => t.stop());
+
+                const outputs = devices.filter(d => d.kind === 'audiooutput');
+                if (outputs.length === 0) {
+                    nameEl.textContent = 'No output devices';
+                    npNameEl.textContent = 'No output devices';
+                    return;
+                }
+                const def = outputs.find(d => d.deviceId === 'default') || outputs[0];
+                let label = def.label || '(permission needed)';
+                nameEl.textContent = label;
+                npNameEl.textContent = label;
+                if (/bluetooth|bt|airpods|beats|jbl|bose|sony|buds/i.test(label)) {
+                    nameEl.style.color = '#daa520';
+                    npNameEl.style.color = '#daa520';
+                } else {
+                    nameEl.style.color = '#ffc832';
+                    npNameEl.style.color = '#ffc832';
+                }
+            } catch (e) {
+                nameEl.textContent = 'Detection failed';
+                npNameEl.textContent = 'Detection failed';
+            }
+        }
+
+        if (navigator.bluetooth && navigator.bluetooth.addEventListener) {
+            try { navigator.bluetooth.addEventListener('availabilitychanged', checkBluetoothStatus); } catch (e) {}
+        }
+        if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
+            try { navigator.mediaDevices.addEventListener('devicechange', () => { detectAudioOutput(); }); } catch (e) {}
+        }
+
+        // ========== FULLSCREEN "NOW PLAYING" OVERLAY ==========
+        function openNowPlaying() {
+            document.getElementById('npOverlay').classList.add('open');
+            document.getElementById('npVolumeSlider').value = Math.round(audio.volume * 100);
+            updatePlayerUI();
+            document.getElementById('npBtDevice').textContent = document.getElementById('btDeviceName').textContent;
+        }
+        function closeNowPlaying() {
+            document.getElementById('npOverlay').classList.remove('open');
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNowPlaying(); });
 
         // ========== CREATE PLAYLIST ==========
         async function createPlaylist() {
@@ -717,6 +938,23 @@
 
         // ========== INIT ==========
         loadPlaylists();
+        checkBluetoothStatus();
+        (async () => {
+            try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const outputs = devices.filter(d => d.kind === 'audiooutput');
+                if (outputs.length > 0) {
+                    const def = outputs.find(d => d.deviceId === 'default') || outputs[0];
+                    const label = def.label || 'Tap "Detect Device"';
+                    document.getElementById('btDeviceName').textContent = label;
+                    document.getElementById('npBtDevice').textContent = label;
+                } else {
+                    document.getElementById('btDeviceName').textContent = 'None';
+                    document.getElementById('npBtDevice').textContent = 'None';
+                }
+            } catch (e) {}
+        })();
     </script>
 </body>
 </html>
