@@ -1,0 +1,30 @@
+# === Dependencies ===
+node_modules/
+
+# === Netlify build plugin cache (don't commit — massive) ===
+.netlify/
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Editor ===
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*.sw?
+
+# === MCP artefacts ===
+.playwright-mcp/
+
+# === Logs ===
+*.log
+logs/
+
+# === Env ===
+.env
+.env.local
+.env.*.local
+!.env.example
