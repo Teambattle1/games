@@ -145,6 +145,33 @@
         .icon-link:hover .c-black { box-shadow: 0 0 40px rgba(120,120,120,0.9), 0 0 80px rgba(100,100,100,0.6), 0 0 120px rgba(80,80,80,0.4), inset 0 0 30px rgba(150,150,150,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
         .l-black { color: #c0c0c0; }
 
+        /* Music Green - TeamMusic (animated equalizer) */
+        .c-music { background: linear-gradient(135deg, rgba(110,240,150,0.9), rgba(34,197,94,0.75) 50%, rgba(20,140,65,0.85)); box-shadow: 0 0 20px rgba(34,197,94,0.6), 0 0 40px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.3), inset 0 0 30px rgba(160,255,190,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); border: 2px solid rgba(160,255,190,0.5); animation: p-music 2s ease-in-out infinite; }
+        @keyframes p-music { 0%,100% { box-shadow: 0 0 20px rgba(34,197,94,0.6), 0 0 40px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.3), inset 0 0 30px rgba(160,255,190,0.3), inset 0 -20px 40px rgba(0,0,0,0.2); } 50% { box-shadow: 0 0 30px rgba(34,197,94,0.9), 0 0 60px rgba(34,197,94,0.55), 0 0 90px rgba(34,197,94,0.4), inset 0 0 30px rgba(160,255,190,0.45), inset 0 -20px 40px rgba(0,0,0,0.2); } }
+        .icon-link:hover .c-music { box-shadow: 0 0 40px rgba(34,197,94,0.95), 0 0 80px rgba(34,197,94,0.65), 0 0 120px rgba(34,197,94,0.45), inset 0 0 30px rgba(160,255,190,0.5), inset 0 -20px 40px rgba(0,0,0,0.2); animation: none; }
+        .l-music { color: #22c55e; }
+
+        /* Equalizer bars inside music icon */
+        .c-music svg .eq-bar {
+            fill: #ffffff;
+            transform-box: fill-box;
+            transform-origin: center bottom;
+            animation: eq-dance 0.9s ease-in-out infinite alternate;
+        }
+        .c-music svg .eq-bar-1 { animation-duration: 0.7s; animation-delay: 0.00s; }
+        .c-music svg .eq-bar-2 { animation-duration: 0.55s; animation-delay: 0.12s; }
+        .c-music svg .eq-bar-3 { animation-duration: 0.85s; animation-delay: 0.05s; }
+        .c-music svg .eq-bar-4 { animation-duration: 0.65s; animation-delay: 0.18s; }
+        .c-music svg .eq-bar-5 { animation-duration: 0.75s; animation-delay: 0.08s; }
+        .icon-link:hover .c-music svg .eq-bar { animation-duration: 0.35s; }
+        @keyframes eq-dance {
+            0%   { transform: scaleY(0.25); }
+            100% { transform: scaleY(1); }
+        }
+
+        /* Music tile sits alone on row 4 — span full grid width so justify-items:center centers it */
+        .icon-link.music-tile { grid-column: 1 / -1; }
+
         @media (max-width: 900px) {
             .container { grid-template-columns: repeat(2, 1fr); gap: 25px; }
             .icon { width: 100px; height: 100px; }
@@ -405,6 +432,20 @@
                 <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
             </div>
             <span class="label"><span class="l-white">Team</span><span class="l-orange">Race</span></span>
+        </a>
+
+        <!-- Row 4 -->
+        <a href="music.html" class="icon-link music-tile">
+            <div class="icon c-music">
+                <svg viewBox="0 0 24 24">
+                    <rect class="eq-bar eq-bar-1" x="2.5"  y="8"  width="2.8" height="8"  rx="0.6"/>
+                    <rect class="eq-bar eq-bar-2" x="7"    y="5"  width="2.8" height="14" rx="0.6"/>
+                    <rect class="eq-bar eq-bar-3" x="11.5" y="2"  width="2.8" height="20" rx="0.6"/>
+                    <rect class="eq-bar eq-bar-4" x="16"   y="6"  width="2.8" height="12" rx="0.6"/>
+                    <rect class="eq-bar eq-bar-5" x="20.5" y="9"  width="2.8" height="6"  rx="0.6"/>
+                </svg>
+            </div>
+            <span class="label"><span class="l-white">Team</span><span class="l-orange">Music</span></span>
         </a>
     </div>
 
