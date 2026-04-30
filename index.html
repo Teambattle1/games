@@ -327,9 +327,23 @@
             0%, 100% { opacity: 0.15; }
             50%      { opacity: 1; }
         }
+        /* Version-tag øverst i venstre hjørne */
+        .version-tag {
+            position: fixed;
+            top: 8px;
+            left: 10px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.35);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            z-index: 10000;
+            pointer-events: none;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
+    <div class="version-tag">v1.0</div>
     <div class="intro-overlay">
         <div class="fireflies">
             <span class="firefly" style="left:10%; top:80%; animation-delay:0s,   .2s; animation-duration:9s, 2.4s;"></span>
@@ -458,23 +472,50 @@
 
     <script>
         (function () {
+            var isAndroid = /Android/i.test(navigator.userAgent);
+            var isStandalone =
+                (window.matchMedia && (window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: standalone)').matches)) ||
+                window.navigator.standalone === true;
+
             function enterFullscreen() {
                 var el = document.documentElement;
                 var req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
                 if (!req) return;
                 try {
-                    var result = req.call(el);
+                    var result = req.call(el, { navigationUI: 'hide' });
                     if (result && typeof result.then === 'function') {
                         result.catch(function () { /* ignored — requires user gesture */ });
                     }
                 } catch (e) { /* ignored */ }
+
+                // Lås orientering hvis tilgængelig (Android PWA)
+                if (screen.orientation && typeof screen.orientation.lock === 'function') {
+                    try { screen.orientation.lock('any').catch(function () {}); } catch (e) { /* ignored */ }
+                }
             }
 
             function isFullscreen() {
                 return !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
             }
 
-            // Trigger on first user gesture (browsers block fullscreen without one)
+            // Android PWA: forsøg fullscreen direkte ved load — Chrome tillader det ofte
+            // når app'en er åbnet fra hjemmeskærm i standalone/fullscreen display-mode.
+            if (isAndroid && isStandalone) {
+                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                    enterFullscreen();
+                } else {
+                    window.addEventListener('DOMContentLoaded', enterFullscreen, { once: true });
+                }
+                // Re-enter når app vender tilbage fra baggrund
+                document.addEventListener('visibilitychange', function () {
+                    if (!document.hidden && !isFullscreen()) enterFullscreen();
+                });
+                window.addEventListener('pageshow', function () {
+                    if (!isFullscreen()) enterFullscreen();
+                });
+            }
+
+            // Fallback for almindelig browser: trigger på første user gesture
             function onFirstGesture() {
                 if (!isFullscreen()) enterFullscreen();
                 document.removeEventListener('click', onFirstGesture, true);
