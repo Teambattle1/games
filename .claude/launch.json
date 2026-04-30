@@ -5,7 +5,8 @@
       "name": "games-dev",
       "runtimeExecutable": "node",
       "runtimeArgs": ["serve.js"],
-      "port": 8081
+      "port": 8081,
+      "autoPort": true
     }
   ]
 }
